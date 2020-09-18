@@ -4,45 +4,47 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
+from key import SECRET
 app = Flask(__name__)
+
+CURR_USER_KEY = "curr_user"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mars'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = "SECRET!" #Todo-- LOOK THIS UP AND DO IT RIGHT
+app.config['SECRET_KEY'] = SECRET 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 db.drop_all()
 db.create_all()
-#T O D O create LoginForm, forms in general. This will have an effect on login/logout routes, so consult them when yo do this
 #T O D O create tests for models and views
-# T O DO fix app before request
+
 #___________________________________________________
 # route for adding user to global, login and logout methods
 #___________________________________________________
 @app.before_request #messed with to show homepage, NEED TO FIX
 def add_user_to_g():
-    return
-
-    # if CURR_USER_KEY in session:
-    #     g.user = User.query.get(session[CURR_USER_KEY])
-
-    # else:
-    #     g.user = None
 
 
-# def do_login(user):
-#     """Log in user."""
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
 
-#     session[CURR_USER_KEY] = user.id
+    else:
+        g.user = None
 
 
-# def do_logout():
-#     """Logout user."""
+def do_login(user):
+    """Log in user."""
 
-#     if CURR_USER_KEY in session:
-#         del session[CURR_USER_KEY]
+    session[CURR_USER_KEY] = user.id
+
+
+def do_logout():
+    """Logout user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
 #___________________________________________________
 #routes for displaying general homepage and homepage for logged-in users, as well as the info page
