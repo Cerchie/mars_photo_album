@@ -3,7 +3,7 @@ from models import db, connect_db, User, Favorites, Photos
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
-
+from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mars'
@@ -121,7 +121,7 @@ def login():
 
         flash("Invalid credentials.", 'danger')
 
-    return render_template('users/login.html', form=form)
+    return render_template('/login.html', form=form)
 
 
 @app.route('/logout')
