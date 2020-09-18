@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, flash, session
+from flask import Flask, request, redirect, render_template, flash, session, g
 from models import db, connect_db, User, Favorites, Photos
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
@@ -19,7 +19,10 @@ connect_db(app)
 db.drop_all()
 db.create_all()
 #T O D O create tests for models and views
-
+#T O D O make it so logged in hompage route only shows when user is logged in
+#T O D O make it so mission info page has well written copy, maybe info from API calls. 
+# Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
+#T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
 #___________________________________________________
 # route for adding user to global, login and logout methods
 #___________________________________________________
@@ -57,9 +60,11 @@ def show_homepage():
 @app.route("/homepage")
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
+    return render_template('logged_in_homepage.html')
 
 @app.route("/mission-info", methods=['GET'])
 def show_mission_info():
+    return render_template('mission_info.html')
     """route to display more information about photos and rovers"""
 
 #___________________________________________________
@@ -68,12 +73,15 @@ def show_mission_info():
 @app.route("/curiousity/photos", methods=['GET', 'POST'])
 def show_curiousity_photos():
     """route to display Curiousity info and photos"""
+    return render_template('curiousity_photos.html')
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
 def show_opportunity_photos():
     """route to display Opportunity info and photos"""
+    return render_template('opportunity_photos.html')
 @app.route("/spirit/photos", methods=['GET', 'POST'])
 def show_spirit_photos():
     """route to display Spirit info and photos"""
+    return render_template('spirit_photos.html')
 
 #___________________________________________________
 #routes for onboarding user 
