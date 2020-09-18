@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Favorites, Photos
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
+from forms import LoginForm, SignUpForm, UserEditForm
 
 app = Flask(__name__)
 
@@ -15,56 +16,62 @@ connect_db(app)
 db.drop_all()
 db.create_all()
 #T O D O create LoginForm, forms in general. This will have an effect on login/logout routes, so consult them when yo do this
-
-
+#T O D O create tests for models and views
+# T O DO fix app before request
 #___________________________________________________
-#login and logout methods, adding user to global
+# route for adding user to global, login and logout methods
 #___________________________________________________
-@app.before_request
+@app.before_request #messed with to show homepage, NEED TO FIX
 def add_user_to_g():
+    return
 
-    if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
+    # if CURR_USER_KEY in session:
+    #     g.user = User.query.get(session[CURR_USER_KEY])
 
-    else:
-        g.user = None
-
-
-def do_login(user):
-    """Log in user."""
-
-    session[CURR_USER_KEY] = user.id
+    # else:
+    #     g.user = None
 
 
-def do_logout():
-    """Logout user."""
+# def do_login(user):
+#     """Log in user."""
 
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
+#     session[CURR_USER_KEY] = user.id
+
+
+# def do_logout():
+#     """Logout user."""
+
+#     if CURR_USER_KEY in session:
+#         del session[CURR_USER_KEY]
 
 #___________________________________________________
 #routes for displaying general homepage and homepage for logged-in users, as well as the info page
 #___________________________________________________
 @app.route("/")
-"""route to display initial homepage"""
 def show_homepage():
+    """route to display initial homepage"""
     return render_template('homepage.html')
 
 @app.route("/homepage")
-"""route to display logged-in homepage"""
+def show_logged_in_homepage():
+    """route to display logged-in homepage"""
 
 @app.route("/mission-info", methods=['GET'])
-"""route to display more information about photos and rovers"""
+def show_mission_info():
+    """route to display more information about photos and rovers"""
 
 #___________________________________________________
 #routes for rover photos
 #___________________________________________________
 @app.route("/curiousity/photos", methods=['GET', 'POST'])
-"""route to display Curiousity info and photos"""
+def show_curiousity_photos():
+    """route to display Curiousity info and photos"""
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
-"""route to display Opportunity info and photos"""
+def show_opportunity_photos():
+    """route to display Opportunity info and photos"""
 @app.route("/spirit/photos", methods=['GET', 'POST'])
-"""route to display Spirit info and photos"""
+def show_spirit_photos():
+    """route to display Spirit info and photos"""
 
 #___________________________________________________
 #routes for onboarding user 
@@ -94,7 +101,9 @@ def delete_favorites(user_id):
 @app.route("/<int:user_id>/delete")
 def delete(user_id):
     """delete user."""
-
+#___________________________________________________
+#login/logout routes
+#___________________________________________________
 @app.route('/login', methods=["GET", "POST"])
 def login():
     """handle user login, using method from Springboard warbler project"""
@@ -127,18 +136,22 @@ def logout():
 #routes for adding/deleting/editing user favorites
 #___________________________________________________
 @app.route('/users/<int:user_id>/favorites', methods=["GET"])
-"""route for showing user's fave page"""
 def show_favorites_page(user_id):
+    """route for showing user's fave page"""
+
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
-"""route for adding a favorite to user's favorites"""
 def add_favorite(photo_id):
+    """route for adding a favorite to user's favorites"""
+
 
 @app.route("/photos/<int:photo_id>")
-"""routes for viewing a particular photo"""
+def show_photo():
+    """routes for viewing a particular photo"""
 
-
+#________________________________________________________
 #after request borrowed from warbler Springboard exercise
+#________________________________________________________
 @app.after_request 
 def add_header(req):
     """Add non-caching headers on every request."""
