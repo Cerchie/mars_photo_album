@@ -6,6 +6,10 @@
 
 
 Hello world, this is a Mars rover page where you can view your account info
-<a href="//<int:user_id>/editFIX THIS">Edit your account</a>
+Your username is <div>{{user.username}}</div>
+
+<a href="/{{user.id}}/edit">Edit your username and password here</a>
+
+<a href="/homepage">Go back</a>
 
 {% endblock %}
