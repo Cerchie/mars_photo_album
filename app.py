@@ -18,12 +18,18 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 connect_db(app)
 db.drop_all()
 db.create_all()
+
 #T O D O create tests for models and views
 #T O D O make it so logged in hompage route only shows when user is logged in
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
 #T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
 #T O D O remember to render form in signup.html and in edit.html, add delete btn
+#T O D O render Mars photo on rover pages and individual page
+#T O D O implement bcrypt to make sure user passwords are safe
+
+
+
 #___________________________________________________
 # route for adding user to global, login and logout methods
 #___________________________________________________

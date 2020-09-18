@@ -11,9 +11,9 @@ db.create_all()
 User.query.delete()
 
 # Add users
-gemma = User(first_name='Gemma', last_name="Smith")
-george = User(first_name='George', last_name="Sanders")
-gillian = User(first_name='Gillian', last_name="Sally")
+gemma = User(username='Gemma', password="Smith")
+george = User(username='George', password="Sanders")
+gillian = User(username='Gillian', password="Sally")
 
 # Add new objects to session, so they'll persist
 db.session.add(gemma)
