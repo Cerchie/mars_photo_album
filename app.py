@@ -23,6 +23,7 @@ db.create_all()
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
 #T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
+#T O D O remember to render form in signup.html and in edit.html, add delete btn
 #___________________________________________________
 # route for adding user to global, login and logout methods
 #___________________________________________________
@@ -74,24 +75,29 @@ def show_mission_info():
 def show_curiousity_photos():
     """route to display Curiousity info and photos"""
     return render_template('curiousity_photos.html')
+
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
 def show_opportunity_photos():
     """route to display Opportunity info and photos"""
     return render_template('opportunity_photos.html')
+
 @app.route("/spirit/photos", methods=['GET', 'POST'])
 def show_spirit_photos():
     """route to display Spirit info and photos"""
     return render_template('spirit_photos.html')
 
 #___________________________________________________
-#routes for onboarding user 
+#route for onboarding user 
 #___________________________________________________
 @app.route('/user/signup', methods=["GET"])
 def new_user_form():
     """sign up here"""
+    return render_template('signup.html')
+
 @app.route("/user/signup", methods=["POST"])
 def create_new_user():
     """form submission for creating a new user"""
+    return redirect('/logged_in_homepage.html')
 
 #___________________________________________________
 #routes for user capabilities
@@ -99,18 +105,24 @@ def create_new_user():
 @app.route("/<int:user_id>/edit")
 def show_editpage(user_id):
     """show edit page"""
+    return render_template('edit.html')
+
 @app.route("/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
     """handle form submission for updating user"""
-@app.route("/<int:user_id>/favorites")
-def show_favoritespage(user_id):
-    """show favorites page for viewing and deleting faves"""
-@app.route("/<int:user_id>/favorites", methods=['DELETE'])
-def delete_favorites(user_id):
-    """route for deleting a fave"""
+    return redirect('/<int:user_id>/edit')
+
+@app.route("/user/<int:user_id>")
+def show_user_page(user_id):
+    """show user info"""
+    return render_template('user_info.html')
+
+
+
 @app.route("/<int:user_id>/delete")
 def delete(user_id):
     """delete user."""
+    return redirect('/')
 #___________________________________________________
 #login/logout routes
 #___________________________________________________
@@ -145,19 +157,26 @@ def logout():
 #___________________________________________________
 #routes for adding/deleting/editing user favorites
 #___________________________________________________
-@app.route('/users/<int:user_id>/favorites', methods=["GET"])
-def show_favorites_page(user_id):
-    """route for showing user's fave page"""
+@app.route("/<int:user_id>/favorites")
+def show_favoritespage(user_id):
+    """show favorites page for viewing and deleting faves"""
+    return render_template('favorites.html')
 
+@app.route("/<int:user_id>/favorites", methods=['DELETE'])
+def delete_favorites(user_id):
+    """route for deleting a fave"""
+    return redirect('favorites.html')
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
 def add_favorite(photo_id):
     """route for adding a favorite to user's favorites"""
+    return redirect('/favorites')
 
 
 @app.route("/photos/<int:photo_id>")
 def show_photo():
     """routes for viewing a particular photo"""
+    return render_template('photo.html')
 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise
