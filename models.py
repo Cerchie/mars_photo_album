@@ -70,7 +70,7 @@ class User(db.Model):
         return False
 
 class Favorites(db.Model):
-"""makes favorites table with id, user_id, and photo_id columns"""
+    """makes favorites table with id, user_id, and photo_id columns"""
     __tablename__ = 'favorites'
 
     id = db.Column(
@@ -89,7 +89,7 @@ class Favorites(db.Model):
     )
 
 class Photos(db.Model):
-"""makes photos table with id and url columns"""
+    """makes photos table with id and url columns"""
     __tablename__ = 'photos'
 
     id = db.Column(
