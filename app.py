@@ -122,7 +122,7 @@ def logout():
     do_logout()
     flash("successful logout")
     return redirect('/login')
-    
+
 #___________________________________________________
 #routes for adding/deleting/editing user favorites
 #___________________________________________________
@@ -138,8 +138,8 @@ def add_favorite(photo_id):
 """routes for viewing a particular photo"""
 
 
-
-@app.after_request #after request borrowed from warbler Springboard exercise
+#after request borrowed from warbler Springboard exercise
+@app.after_request 
 def add_header(req):
     """Add non-caching headers on every request."""
 
