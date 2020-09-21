@@ -28,7 +28,7 @@ db.create_all()
 #T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
 #T O D O remember to add delete btn functionality in edit.html route
 #T O D O render Mars photo on rover pages and favorites page
-
+#T O D O return to logged-in-homepage route once you've got the signup route complete
 
 
 
@@ -78,7 +78,7 @@ def show_logged_in_homepage():
     """route to display logged-in homepage"""
     today = date.today()
     resp = requests.get()
-    
+
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
     data = widget_response.json()
     sol_day_of_curr_date = data["sol_keys"][6]
@@ -103,9 +103,27 @@ def show_mission_info():
 def show_curiosity_photos():
     """route to display Curiosity info and photos"""
     #grab url from api and commit to db
-    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity?api_key={APIKEY}')
+    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
+
     data = mission_info_resp.json()
-    return jsonify(data)
+
+    photo_url_1 = data["latest_photos"][0]["img_src"]
+    photo_url_2 = data["latest_photos"][1]["img_src"]
+    photo_url_3 = data["latest_photos"][2]["img_src"]
+    photo_url_4 = data["latest_photos"][3]["img_src"]
+    photo_url_5 = data["latest_photos"][4]["img_src"]
+    photo_url_6 = data["latest_photos"][5]["img_src"]
+
+    db.session.add(photo_url_1)
+    db.session.add(photo_url_2)
+    db.session.add(photo_url_3)
+    db.session.add(photo_url_4)
+    db.session.add(photo_url_5)
+    db.session.add(photo_url_6)
+
+    db.session.commit()
+    
+    return render_template("curiousity_photos.html", photo_url_3=photo_url_3)
 
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
 def show_opportunity_photos():
