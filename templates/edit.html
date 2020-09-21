@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- add logic here to set form and add dekete btn-->
+<!-- add logic here to set form and add delete btn-->
 
 {{ form.hidden_tag() }}
 
 {% for field in form if field.widget.input_type != 'hidden' %}
 
 {{ field(placeholder=field.label.text, class="form-control") }}
+
+<button id="delete-btn">delete user</button>
 
 {% endfor %}
 

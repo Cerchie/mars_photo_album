@@ -4,7 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
-from key import SECRET
+from key import SECRET, APIKEY
 app = Flask(__name__)
 
 CURR_USER_KEY = "curr_user"
@@ -23,9 +23,9 @@ db.create_all()
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
 #T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
-#T O D O remember to add delete btn in signup.html and in edit.html,
+#T O D O remember to add delete btn functionality in edit.html route
 #T O D O render Mars photo on rover pages and favorites page
-#T O D O implement bcrypt to make sure user passwords are safe
+
 
 
 
@@ -73,6 +73,7 @@ def show_logged_in_homepage():
 
 @app.route("/mission-info", methods=['GET'])
 def show_mission_info():
+
     return render_template('mission_info.html')
     """route to display more information about photos and rovers"""
 
@@ -82,16 +83,19 @@ def show_mission_info():
 @app.route("/curiousity/photos", methods=['GET', 'POST'])
 def show_curiousity_photos():
     """route to display Curiousity info and photos"""
+    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity?api_key={APIKEY}')
     return render_template('curiousity_photos.html')
 
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
 def show_opportunity_photos():
     """route to display Opportunity info and photos"""
+    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Opportunity?api_key={APIKEY}')
     return render_template('opportunity_photos.html')
 
 @app.route("/spirit/photos", methods=['GET', 'POST'])
 def show_spirit_photos():
     """route to display Spirit info and photos"""
+    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/Spirit/Curiosity?api_key={APIKEY}')
     return render_template('spirit_photos.html')
 
 #___________________________________________________
