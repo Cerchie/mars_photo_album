@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
 from key import SECRET, APIKEY
+from datetime import date
 import requests
 app = Flask(__name__)
 
@@ -61,8 +62,10 @@ def do_logout():
 #___________________________________________________
 @app.route("/")
 def show_homepage():
+    today = date.today()
     """route to display initial homepage"""
-    return render_template('homepage.html')
+    widget_response = request.get("")
+    return render_template('homepage.html') 
 
 @app.route("/homepage")
 def show_logged_in_homepage():
@@ -83,8 +86,8 @@ def show_mission_info():
 #___________________________________________________
 @app.route("/curiosity/photos", methods=['GET', 'POST'])
 def show_curiosity_photos():
-    """route to display Curiousity info and photos"""
-    
+    """route to display Curiosity info and photos"""
+    #grab url from api and commit to db
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity?api_key={APIKEY}')
     data = mission_info_resp.json()
     return jsonify(data)
