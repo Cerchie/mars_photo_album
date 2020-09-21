@@ -4,9 +4,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
-from key import SECRET, APIKEY
-from datetime import date
+from key import SECRET, APIKEY, WAPIKEY
+from datetime import date, datetime
 import requests
+import json
 app = Flask(__name__)
 
 CURR_USER_KEY = "curr_user"
@@ -62,18 +63,32 @@ def do_logout():
 #___________________________________________________
 @app.route("/")
 def show_homepage():
-    today = date.today()
     """route to display initial homepage"""
-    widget_response = request.get("")
-    return render_template('homepage.html') 
+    today = datetime.utcnow()
+    
+    widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
+    data = widget_response.json()
+    sol_day_of_curr_date = data["sol_keys"][6]
+    celsius_on_mars = data[sol_day_of_curr_date]["AT"]["av"]
+    return render_template("homepage.html", celsius_on_mars=celsius_on_mars) 
+    
 
 @app.route("/homepage")
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
+    today = date.today()
+    resp = requests.get()
+    
+    widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
+    data = widget_response.json()
+    sol_day_of_curr_date = data["sol_keys"][6]
+    celsius_on_mars = data[sol_day_of_curr_date]["AT"]["av"]
+        
     if not g.user:
         flash("Please login.")
         return redirect("/")
-    return render_template('logged_in_homepage.html')
+
+    return render_template('logged_in_homepage.html', celsius_on_mars=celsius_on_mars)
 
 @app.route("/mission-info", methods=['GET'])
 def show_mission_info():
