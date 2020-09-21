@@ -98,12 +98,14 @@ def show_spirit_photos():
 @app.route('/user/signup', methods=["GET"])
 def new_user_form():
     """sign up here"""
-    return render_template('signup.html')
+    form = SignUpForm()
+    return render_template('signup.html', form=form)
 
 @app.route("/user/signup", methods=["POST"])
 def create_new_user():
     """form submission for creating a new user"""
-    return redirect('/logged_in_homepage.html')
+    form = SignUpForm()
+    return redirect('/logged_in_homepage.html', form=form)
 
 #___________________________________________________
 #routes for user capabilities
@@ -111,12 +113,14 @@ def create_new_user():
 @app.route("/<int:user_id>/edit")
 def show_editpage(user_id):
     """show edit page"""
-    return render_template('edit.html')
+    form = UserEditForm()
+    return render_template('edit.html', form= form)
 
 @app.route("/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
     """handle form submission for updating user"""
-    return redirect('/<int:user_id>/edit')
+    form = UserEditForm()
+    return redirect('/<int:user_id>/edit', form=form)
 
 @app.route("/user/<int:user_id>")
 def show_user_page(user_id):
@@ -149,7 +153,7 @@ def login():
 
         flash("Invalid credentials.", 'danger')
 
-    return render_template('/login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
