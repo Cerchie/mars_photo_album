@@ -20,12 +20,11 @@ db.drop_all()
 db.create_all()
 
 #T O D O create tests for models and views
-#T O D O make it so logged in hompage route only shows when user is logged in
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
 #T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
-#T O D O remember to render form in signup.html and in edit.html, add delete btn
-#T O D O render Mars photo on rover pages and individual page
+#T O D O remember to add delete btn in signup.html and in edit.html,
+#T O D O render Mars photo on rover pages and favorites page
 #T O D O implement bcrypt to make sure user passwords are safe
 
 
@@ -67,6 +66,9 @@ def show_homepage():
 @app.route("/homepage")
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
+        if not g.user:
+        flash("Please login.")
+        return redirect("/")
     return render_template('logged_in_homepage.html')
 
 @app.route("/mission-info", methods=['GET'])
@@ -113,11 +115,19 @@ def create_new_user():
 @app.route("/<int:user_id>/edit")
 def show_editpage(user_id):
     """show edit page"""
+
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
+
     form = UserEditForm()
     return render_template('edit.html', form= form)
 
 @app.route("/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     """handle form submission for updating user"""
     form = UserEditForm()
     return redirect('/<int:user_id>/edit', form=form)
@@ -125,6 +135,9 @@ def edit_user(user_id):
 @app.route("/user/<int:user_id>")
 def show_user_page(user_id):
     """show user info"""
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     return render_template('user_info.html')
 
 
@@ -132,6 +145,9 @@ def show_user_page(user_id):
 @app.route("/<int:user_id>/delete")
 def delete(user_id):
     """delete user."""
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     return redirect('/')
 #___________________________________________________
 #login/logout routes
@@ -170,15 +186,24 @@ def logout():
 @app.route("/<int:user_id>/favorites")
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     return render_template('favorites.html')
 
 @app.route("/<int:user_id>/favorites", methods=['DELETE'])
 def delete_favorites(user_id):
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     """route for deleting a fave"""
     return redirect('favorites.html')
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
 def add_favorite(photo_id):
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
     """route for adding a favorite to user's favorites"""
     return redirect('/favorites')
 
