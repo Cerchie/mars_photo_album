@@ -1,10 +1,11 @@
-from flask import Flask, request, redirect, render_template, flash, session, g
+from flask import Flask, request, redirect, render_template, flash, session, jsonify, g
 from models import db, connect_db, User, Favorites, Photos
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
 from key import SECRET, APIKEY
+import requests
 app = Flask(__name__)
 
 CURR_USER_KEY = "curr_user"
@@ -32,7 +33,7 @@ db.create_all()
 #___________________________________________________
 # route for adding user to global, login and logout methods
 #___________________________________________________
-@app.before_request #messed with to show homepage, NEED TO FIX
+@app.before_request
 def add_user_to_g():
 
 
@@ -66,7 +67,7 @@ def show_homepage():
 @app.route("/homepage")
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
-        if not g.user:
+    if not g.user:
         flash("Please login.")
         return redirect("/")
     return render_template('logged_in_homepage.html')
@@ -80,11 +81,13 @@ def show_mission_info():
 #___________________________________________________
 #routes for rover photos
 #___________________________________________________
-@app.route("/curiousity/photos", methods=['GET', 'POST'])
-def show_curiousity_photos():
+@app.route("/curiosity/photos", methods=['GET', 'POST'])
+def show_curiosity_photos():
     """route to display Curiousity info and photos"""
+    
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity?api_key={APIKEY}')
-    return render_template('curiousity_photos.html')
+    data = mission_info_resp.json()
+    return jsonify(data)
 
 @app.route("/opportunity/photos", methods=['GET', 'POST'])
 def show_opportunity_photos():
