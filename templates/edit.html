@@ -2,16 +2,19 @@
 
 {% block content %}
 <!-- add logic here to set form and add delete btn-->
+<form method="POST" id="user_form">
 
-{{ form.hidden_tag() }}
+    {{ form.hidden_tag() }}
 
-{% for field in form if field.widget.input_type != 'hidden' %}
+    {% for field in form if field.widget.input_type != 'hidden' %}
 
-{{ field(placeholder=field.label.text, class="form-control") }}
+    {{ field(placeholder=field.label.text, class="form-control") }}
 
-<button id="delete-btn">delete user</button>
+    {% endfor %}
 
-{% endfor %}
+</form>
+
+<a href="/{{user.id}}/delete">Delete Your Account</a>
 
 Hello world, this is a Mars rover page where you can edit your account
 

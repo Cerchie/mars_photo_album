@@ -12,8 +12,8 @@
 {% endif %}
 {% endwith %}
 
-<a href="/<int:user_id>/favoritesFIXTHIS">My Favorites</a>
-<a href="/user/<int:user_id>FIX THIS">My Account</a>
+<a href="/{{user.id}}/favorites">My Favorites</a>
+<a href="/user/{{user.id}}">My Account</a>
 <a href="/logout">Log Out</a>
 <a href="/mission-info">More Info</a>
 <a href="/curiosity/photos">Photos from Curiosity</a>

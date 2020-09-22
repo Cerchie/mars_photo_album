@@ -71,12 +71,11 @@ def show_homepage():
     return render_template("homepage.html", celsius_on_mars=celsius_on_mars) 
     
 
-@app.route("/homepage")
-def show_logged_in_homepage():
+@app.route("/<int:user_id>/homepage")
+def show_logged_in_homepage(user_id):
     """route to display logged-in homepage"""
     today = datetime.utcnow()
-    
-
+    user = User.query.get_or_404(user_id)
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
     data = widget_response.json()
     sol_day_of_curr_date = data["sol_keys"][6]
@@ -86,7 +85,7 @@ def show_logged_in_homepage():
         flash("Please login.")
         return redirect("/")
 
-    return render_template('logged_in_homepage.html', celsius_on_mars=celsius_on_mars)
+    return render_template('logged_in_homepage.html', celsius_on_mars=celsius_on_mars, user=user)
 
 @app.route("/mission-info", methods=['GET'])
 def show_mission_info():
@@ -136,7 +135,7 @@ def create_new_user():
 
         do_login(user)
 
-        return redirect("/homepage")
+        return redirect(f"/{user.id}/homepage")
 
     else:
         return render_template('signup.html', form=form)
@@ -159,27 +158,36 @@ def show_editpage(user_id):
 def edit_user(user_id):
     """handle form submission for updating user"""
     user = User.query.get_or_404(user_id)
+    form = UserEditForm()
+    
     if not g.user:
         flash("Please login.", "error")
         return redirect("/")
-    form = UserEditForm()
-    return redirect('/<int:user_id>/edit', form=form, user=user)
+    
+    return render_template(f'/{user.id}/edit', form=form, user=user)
 
 @app.route("/user/<int:user_id>")
 def show_user_page(user_id):
     """show user info"""
     user = User.query.get_or_404(user_id)
+
     if not g.user:
         flash("Please login.", "error")
         return redirect("/")
+
     return render_template('user_info.html', user=user)
 
+@app.route("/<int:user_id>/delete", methods=['GET'])
+def show_delete_page(user_id):
+    """show page for deleting user"""
+    user = User.query.get_or_404(user_id)
+    return render_template('delete_page.html', user=user)
 
-
-@app.route("/<int:user_id>/delete")
+@app.route("/<int:user_id>/delete", methods=['POST'])
 def delete(user_id):
     """delete user."""
     user = User.query.get_or_404(user_id)
+
     if not g.user:
         flash("Please login.")
         return redirect("/")
@@ -206,7 +214,7 @@ def login():
         if user:
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
-            return redirect("/homepage")
+            return redirect(f"/{user.id}/homepage")
 
         flash("Check your username/password.", 'danger')
 
