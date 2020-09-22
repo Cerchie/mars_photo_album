@@ -26,11 +26,8 @@ db.create_all()
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
 #T O D O Make sure to add logic in Curiosity template to show proper homepage
-#T O D O remember to add delete btn functionality in edit.html route
 #T O D O render Mars photo on rover pages and favorites page
 #T O D O return to logged-in-homepage route once you've got the signup route complete
-
-
 
 #___________________________________________________
 # route for adding user to global, login and logout methods
@@ -170,6 +167,12 @@ def delete(user_id):
     if not g.user:
         flash("Please login.")
         return redirect("/")
+
+        do_logout()
+        
+        db.session.delete(g.user)
+        db.session.commit()
+
     return redirect('/')
 #___________________________________________________
 #login/logout routes
