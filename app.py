@@ -110,11 +110,11 @@ def show_curiosity_photos():
     for photo in photos:
         photo_dict = photo["img_src"]
         #figure out why dict is returned here
-        new_photo = Photos(image_url=photo_url)
-        db.session.add(new_photo)
-        db.session.commit()
+        # new_photo = Photos(image_url=photo_url)
+        # db.session.add(new_photo)
+        # db.session.commit()
     
-    return render_template("curiousity_photos.html", photos=photos)
+    return render_template("curiousity_photos.html", photos=photo_dict)
     # return jsonify(data["latest_photos"])
 
 # def trying_other_way():
