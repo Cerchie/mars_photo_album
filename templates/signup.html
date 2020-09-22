@@ -3,15 +3,28 @@
 {% block content %}
 <!-- add logic here to set form-->
 
-{{ form.hidden_tag() }}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<form method="POST" id="user_form">
 
-{% for field in form if field.widget.input_type != 'hidden' %}
+    {{ form.hidden_tag() }}
 
-{{ field(placeholder=field.label.text, class="form-control") }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
 
-{% endfor %}
+    {{ field(placeholder=field.label.text, class="form-control") }}
 
-<button type="submit" action="homepage">submit</button>
+    {% endfor %}
+
+    <button>submit</button>
+
+</form>
 
 Hello world, this is a Mars rover page where you can sign up to save favorites
 

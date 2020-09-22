@@ -8,6 +8,7 @@ from key import SECRET, APIKEY, WAPIKEY
 from datetime import date, datetime
 import requests
 import json
+from sqlalchemy.exc import IntegrityError
 app = Flask(__name__)
 
 CURR_USER_KEY = "curr_user"
@@ -116,17 +117,30 @@ def show_curiosity_photos():
 #___________________________________________________
 #route for onboarding user 
 #___________________________________________________
-@app.route('/user/signup', methods=["GET"])
-def new_user_form():
+@app.route('/user/signup', methods=['GET', 'POST'])
+def create_new_user():
     """sign up here"""
     form = SignUpForm()
-    return render_template('signup.html', form=form)
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+            )
+            db.session.commit()
+        
+        except IntegrityError:
+            flash("Please pick a unique username", "error") #flash not showing up
+            return render_template('signup.html', form=form)
 
-@app.route("/user/signup", methods=["POST"])
-def create_new_user():
-    """form submission for creating a new user"""
-    form = SignUpForm()
-    return redirect('/logged_in_homepage.html', form=form)
+        do_login(user)
+
+        return redirect("/")
+
+    else:
+        return render_template('signup.html', form=form)
+
+   
 
 #___________________________________________________
 #routes for user capabilities
@@ -169,7 +183,7 @@ def delete(user_id):
         return redirect("/")
 
         do_logout()
-        
+        #figure out how to do alert here for are you sure?
         db.session.delete(g.user)
         db.session.commit()
 
