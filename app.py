@@ -106,15 +106,15 @@ def show_curiosity_photos():
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
 
     data = mission_info_resp.json()
-    photos = data["latest_photos"]
-    for photo in photos:
-        photo_dict = photo["img_src"]
+    photo_data = data["latest_photos"]
+    for datum in photo_data:
+        photo = datum["img_src"]
         #figure out why dict is returned here
-        # new_photo = Photos(image_url=photo_url)
-        # db.session.add(new_photo)
-        # db.session.commit()
+        new_photo = Photos(image_url=photo_url)
+        db.session.add(new_photo)
+        db.session.commit()
     
-    return render_template("curiousity_photos.html", photos=photo_dict)
+    return render_template("curiousity_photos.html", photo=photo)
     # return jsonify(data["latest_photos"])
 
 # def trying_other_way():
