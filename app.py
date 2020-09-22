@@ -89,9 +89,9 @@ def show_logged_in_homepage(user_id):
 
 @app.route("/mission-info", methods=['GET'])
 def show_mission_info():
-
-    return render_template('mission_info.html')
     """route to display more information about photos and rovers"""
+    return render_template('mission_info.html')
+    
 
 #___________________________________________________
 #routes for rover photos
@@ -235,27 +235,45 @@ def logout():
 @app.route("/<int:user_id>/favorites")
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
+
     if not g.user:
         flash("Please login.")
         return redirect("/")
+
     return render_template('favorites.html')
 
 @app.route("/<int:user_id>/favorites", methods=['DELETE'])
 def delete_favorites(user_id):
+    """route for deleting a fave"""
     if not g.user:
         flash("Please login.")
         return redirect("/")
-    """route for deleting a fave"""
+    
     return redirect('favorites.html')
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
 def add_favorite(photo_id):
+    """route for adding a favorite to user's favorites"""
+
     if not g.user:
         flash("Please login.")
         return redirect("/")
-    """route for adding a favorite to user's favorites"""
-    return redirect('/favorites')
 
+    favorited_photo = Photos.query.get_or_404(photo_id)
+    if favorited_photo.user_id == g.user.id:
+        return abort(403)
+
+    user_faves = g.user.favorites
+
+    if favorited_photo in user_faves:
+        g.user.favorites =[fave for favorite in user_faves if fave != favorited_photo] 
+
+    else:
+        g.user.favorites.append(favorited_message)
+
+        return redirect("/<int:user_id>/homepage")
+    
+    return redirect('/favorites')
 
 @app.route("/photos/<int:photo_id>")
 def show_photo():
