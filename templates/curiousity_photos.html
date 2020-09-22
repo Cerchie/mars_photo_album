@@ -4,10 +4,9 @@
 <!-- add logic here to change it if user is logged in -->
 <a href="/">Return Home</a>
 
-
-
 Hello world, this is a Mars rover page where you can see photos from Curiousity
-
-<img src="{{photo}}" alt="mars rover photo, black and white, rocky terrain">
+{% for photo in photos %}
+<img src="{{photo.img_src}}" alt="mars rover photo, black and white, rocky terrain">
+{% endfor %}
 
 {% endblock %}

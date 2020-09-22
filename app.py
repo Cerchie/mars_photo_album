@@ -25,7 +25,7 @@ db.create_all()
 #T O D O create tests for models and views
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
-#T O D O make it so rover photos routes display images from API. Make sure to add logic in templates to show proper homepage
+#T O D O Make sure to add logic in Curiosity template to show proper homepage
 #T O D O remember to add delete btn functionality in edit.html route
 #T O D O render Mars photo on rover pages and favorites page
 #T O D O return to logged-in-homepage route once you've got the signup route complete
@@ -109,19 +109,13 @@ def show_curiosity_photos():
     photo_data = data["latest_photos"]
     for datum in photo_data:
         photo = datum["img_src"]
-        #figure out why dict is returned here
-        new_photo = Photos(image_url=photo_url)
+        
+        new_photo = Photos(image_url=photo)
         db.session.add(new_photo)
         db.session.commit()
     
-    return render_template("curiousity_photos.html", photo=photo)
-    # return jsonify(data["latest_photos"])
+    return render_template("curiousity_photos.html", photos=photo_data)
 
-# def trying_other_way():
-#     today = date.today()
-#     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={today}&camera=pancam&api_key={APIKEY}')
-#     data = mission_info_resp.json()
-#     return jsonify(data)  returns dict w key of "photos" and empty array
 #___________________________________________________
 #route for onboarding user 
 #___________________________________________________
