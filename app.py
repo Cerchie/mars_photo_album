@@ -76,7 +76,7 @@ def show_homepage():
 @app.route("/homepage")
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
-    today = date.today()
+    today = datetime.utcnow()
     resp = requests.get()
 
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
@@ -102,41 +102,26 @@ def show_mission_info():
 @app.route("/curiosity/photos", methods=['GET', 'POST'])
 def show_curiosity_photos():
     """route to display Curiosity info and photos"""
-    #grab url from api and commit to db
+    
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
 
     data = mission_info_resp.json()
-
-    photo_url_1 = data["latest_photos"][0]["img_src"]
-    photo_url_2 = data["latest_photos"][1]["img_src"]
-    photo_url_3 = data["latest_photos"][2]["img_src"]
-    photo_url_4 = data["latest_photos"][3]["img_src"]
-    photo_url_5 = data["latest_photos"][4]["img_src"]
-    photo_url_6 = data["latest_photos"][5]["img_src"]
-
-    db.session.add(photo_url_1)
-    db.session.add(photo_url_2)
-    db.session.add(photo_url_3)
-    db.session.add(photo_url_4)
-    db.session.add(photo_url_5)
-    db.session.add(photo_url_6)
-
-    db.session.commit()
+    photos = data["latest_photos"]
+    for photo in photos:
+        photo_dict = photo["img_src"]
+        #figure out why dict is returned here
+        new_photo = Photos(image_url=photo_url)
+        db.session.add(new_photo)
+        db.session.commit()
     
-    return render_template("curiousity_photos.html", photo_url_3=photo_url_3)
+    return render_template("curiousity_photos.html", photos=photos)
+    # return jsonify(data["latest_photos"])
 
-@app.route("/opportunity/photos", methods=['GET', 'POST'])
-def show_opportunity_photos():
-    """route to display Opportunity info and photos"""
-    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/manifests/Opportunity?api_key={APIKEY}')
-    return render_template('opportunity_photos.html')
-
-@app.route("/spirit/photos", methods=['GET', 'POST'])
-def show_spirit_photos():
-    """route to display Spirit info and photos"""
-    mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/Spirit/Curiosity?api_key={APIKEY}')
-    return render_template('spirit_photos.html')
-
+# def trying_other_way():
+#     today = date.today()
+#     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={today}&camera=pancam&api_key={APIKEY}')
+#     data = mission_info_resp.json()
+#     return jsonify(data)  returns dict w key of "photos" and empty array
 #___________________________________________________
 #route for onboarding user 
 #___________________________________________________

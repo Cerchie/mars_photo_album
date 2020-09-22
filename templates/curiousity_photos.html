@@ -9,5 +9,7 @@
 
 
 Hello world, this is a Mars rover page where you can see photos from Curiousity
-<img src="{{photo_url_3}}" alt="mars rover photo">
+{% for photo in photos %}
+<img src="{{photo}}" alt="mars rover photo, black and white, rocky terrain">
+{% endfor %}
 {% endblock %}
