@@ -75,7 +75,7 @@ def show_homepage():
 def show_logged_in_homepage():
     """route to display logged-in homepage"""
     today = datetime.utcnow()
-    resp = requests.get()
+    
 
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
     data = widget_response.json()
@@ -120,6 +120,7 @@ def show_curiosity_photos():
 @app.route('/user/signup', methods=['GET', 'POST'])
 def create_new_user():
     """sign up here"""
+    
     form = SignUpForm()
     if form.validate_on_submit():
         try:
@@ -130,17 +131,15 @@ def create_new_user():
             db.session.commit()
         
         except IntegrityError:
-            flash("Please pick a unique username", "error") #flash not showing up
+            flash("Please pick a unique username", "error") 
             return render_template('signup.html', form=form)
 
         do_login(user)
 
-        return redirect("/")
+        return redirect("/homepage")
 
     else:
         return render_template('signup.html', form=form)
-
-   
 
 #___________________________________________________
 #routes for user capabilities
@@ -148,36 +147,39 @@ def create_new_user():
 @app.route("/<int:user_id>/edit")
 def show_editpage(user_id):
     """show edit page"""
-
+    user = User.query.get_or_404(user_id)
     if not g.user:
-        flash("Please login.")
+        flash("Please login.", "error")
         return redirect("/")
 
     form = UserEditForm()
-    return render_template('edit.html', form= form)
+    return render_template('edit.html', form=form, user=user)
 
 @app.route("/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
-    if not g.user:
-        flash("Please login.")
-        return redirect("/")
     """handle form submission for updating user"""
+    user = User.query.get_or_404(user_id)
+    if not g.user:
+        flash("Please login.", "error")
+        return redirect("/")
     form = UserEditForm()
-    return redirect('/<int:user_id>/edit', form=form)
+    return redirect('/<int:user_id>/edit', form=form, user=user)
 
 @app.route("/user/<int:user_id>")
 def show_user_page(user_id):
     """show user info"""
+    user = User.query.get_or_404(user_id)
     if not g.user:
-        flash("Please login.")
+        flash("Please login.", "error")
         return redirect("/")
-    return render_template('user_info.html')
+    return render_template('user_info.html', user=user)
 
 
 
 @app.route("/<int:user_id>/delete")
 def delete(user_id):
     """delete user."""
+    user = User.query.get_or_404(user_id)
     if not g.user:
         flash("Please login.")
         return redirect("/")
@@ -204,9 +206,9 @@ def login():
         if user:
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
-            return redirect("/")
+            return redirect("/homepage")
 
-        flash("Invalid credentials.", 'danger')
+        flash("Check your username/password.", 'danger')
 
     return render_template('login.html', form=form)
 

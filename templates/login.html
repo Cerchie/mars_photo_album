@@ -2,16 +2,30 @@
 
 {% block content %}
 <!-- add logic here to set form-->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 
-{{ form.hidden_tag() }}
+<form method="POST" id="user_form">
 
-{% for field in form if field.widget.input_type != 'hidden' %}
 
-{{ field(placeholder=field.label.text, class="form-control") }}
+    {{ form.hidden_tag() }}
 
-{% endfor %}
+    {% for field in form if field.widget.input_type != 'hidden' %}
 
-<button type="submit" action="/homepage">submit</button>
+    {{ field(placeholder=field.label.text, class="form-control") }}
+
+    {% endfor %}
+
+    <button>submit</button>
+
+</form>
 
 Hello world, this is a Mars rover page where you can login
 
