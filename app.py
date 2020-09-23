@@ -244,7 +244,7 @@ def show_favoritespage(user_id):
 
     return render_template('favorites.html', user=user, favorites=user.favorites)
 
-@app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
+@app.route('/photos/<int:photo_id>/favorite', methods=['GET', 'POST'])
 def toggle_favorite(photo_id):
     """route for toggling a favorite in and out of user's faves"""
 
@@ -264,9 +264,11 @@ def toggle_favorite(photo_id):
     else:
         g.user.favorites.append(favorited_photo)
 
+        db.session.commit()
+
         return redirect("/favorites")
     
-    return redirect('/favorites')
+
 
 @app.route("/photos/<int:photo_id>")
 def show_photo():
