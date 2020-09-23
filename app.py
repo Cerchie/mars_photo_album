@@ -59,7 +59,7 @@ def do_logout():
 #___________________________________________________
 #routes for displaying general homepage and homepage for logged-in users, as well as the info page
 #___________________________________________________
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def show_homepage():
     """route to display initial homepage"""
     today = datetime.utcnow()
@@ -232,7 +232,7 @@ def logout():
 #___________________________________________________
 #routes for adding/deleting/editing user favorites
 #___________________________________________________
-@app.route("/<int:user_id>/favorites")
+@app.route("/<int:user_id>/favorites", methods=['GET', 'POST'])
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
 
