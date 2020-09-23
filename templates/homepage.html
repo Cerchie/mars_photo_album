@@ -19,7 +19,15 @@
 
 <div id="weather-widget"></div>
 
-Hello world, this is a Mars rover page
-[Here is the data belonging to what my frontend code will make the Mars weather widget:
-{{celsius_on_mars}}]
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top"
+        src="https://images.unsplash.com/photo-1532954751162-d1b6d1f3b1a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+        alt="The red planet alone in space">
+    <div class="card-body">
+        <h5 class="card-title">What's the weather like on Mars today?</h5>
+        <p class="card-text"> {{celsius_on_mars}} degrees Celsius</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+
 {% endblock %}
