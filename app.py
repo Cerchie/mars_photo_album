@@ -240,20 +240,13 @@ def show_favoritespage(user_id):
         flash("Please login.")
         return redirect("/")
 
-    return render_template('favorites.html')
+    user = User.query.get_or_404(user_id)
 
-@app.route("/<int:user_id>/favorites", methods=['DELETE'])
-def delete_favorites(user_id):
-    """route for deleting a fave"""
-    if not g.user:
-        flash("Please login.")
-        return redirect("/")
-    
-    return redirect('favorites.html')
+    return render_template('favorites.html', user=user, favorites=user.favorites)
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['POST'])
-def add_favorite(photo_id):
-    """route for adding a favorite to user's favorites"""
+def toggle_favorite(photo_id):
+    """route for toggling a favorite in and out of user's faves"""
 
     if not g.user:
         flash("Please login.")
