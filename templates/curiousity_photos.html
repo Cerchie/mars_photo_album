@@ -7,7 +7,7 @@
 Hello world, this is a Mars rover page where you can see photos from Curiousity
 {% for photo in photos %}
 <img src="{{photo.img_src}}" alt="mars rover photo, black and white, rocky terrain">
-<form method="POST" action="/users/{{ photo.user.id }}">
+<form method="POST" action="/users/{{ photo.user.id }}/favorite">
     <button class="
           btn 
           btn-sm 
