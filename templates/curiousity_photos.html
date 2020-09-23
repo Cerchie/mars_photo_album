@@ -7,17 +7,20 @@
 Hello world, this is a Mars rover page where you can see photos from Curiousity
 {% for photo in photos %}
 
-<img src="{{photo.img_src}}" alt="mars rover photo, black and white, rocky terrain">
+<div class="photo-container m-2 p-2"><img src="{{photo.img_src}}"
+        alt="mars rover photo, black and white, rocky terrain">
+</div>
 
-<form method="POST" action="/photos/{{photo.id}}/favorite">
-    <button class="
+<div class="favorite-btn-container m-2 p-2">
+    <form method="POST" action="/photos/{{photo.id}}/favorite">
+        <button class="
           btn 
           btn-sm 
           {{'btn-primary' if photo.id in favorites else 'btn-secondary'}}">
-        <i class="far fa-heart"></i>
-    </button>
-</form>
-
+            <i class="far fa-heart"> Favorite</i>
+        </button>
+    </form>
+</div>
 {% endfor %}
 
 {% endblock %}
