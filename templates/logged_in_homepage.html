@@ -11,17 +11,48 @@
 </ul>
 {% endif %}
 {% endwith %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Photo Album from Mars</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<a href="/{{user.id}}/favorites">My Favorites</a>
-<a href="/user/{{user.id}}">My Account</a>
-<a href="/logout">Log Out</a>
-<a href="/mission-info">More Info</a>
-<a href="/curiosity/photos">Photos from Curiosity</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/{{user.id}}/favorites"> My Favorites <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user/{{user.id}}"> My Account </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/mission-info">More Info</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/curiosity/photos">Photos from Curiosity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div id="weather-widget"></div>
 
-Hello world, this is a Mars rover page where the user is logged in
 
-[Here is the data belonging to what my frontend code will make the Mars weather widget:
-{{celsius_on_mars}}]
+<div id="weather-widget"></div>
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top"
+        src="https://images.unsplash.com/photo-1532954751162-d1b6d1f3b1a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+        alt="The red planet alone in space">
+    <div class="card-body">
+        <h5 class="card-title">What's the weather like on Mars today?</h5>
+        <p class="card-text"> {{celsius_on_mars}} degrees Celsius</p>
+    </div>
+</div>
 
 {% endblock %}

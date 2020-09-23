@@ -1,7 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Photo Album from Mars</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/signup">Sign Up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log In</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/mission-info">More Info</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/curiosity/photos">Photos from Curiosity</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 <ul class=flashes>
@@ -12,10 +35,6 @@
 {% endif %}
 {% endwith %}
 
-<a href="/user/signup">Sign Up</a>
-<a href="/login">Log In</a>
-<a href="/mission-info">More Info</a>
-<a href="/curiosity/photos">Photos from Curiosity</a>
 
 <div id="weather-widget"></div>
 
@@ -26,7 +45,6 @@
     <div class="card-body">
         <h5 class="card-title">What's the weather like on Mars today?</h5>
         <p class="card-text"> {{celsius_on_mars}} degrees Celsius</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div>
 
