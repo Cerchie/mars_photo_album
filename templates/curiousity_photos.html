@@ -7,11 +7,11 @@
 Hello world, this is a Mars rover page where you can see photos from Curiousity
 {% for photo in photos %}
 <img src="{{photo.img_src}}" alt="mars rover photo, black and white, rocky terrain">
-<form method="POST" action="/users/{{ photo.user.id }}/favorite">
+<form method="POST" action="/users/{{ new_photo.user.id }}/favorite">
     <button class="
           btn 
           btn-sm 
-          {{'btn-primary' if photo.id in favorites else 'btn-secondary'}}">
+          {{'btn-primary' if new_photo.id in favorites else 'btn-secondary'}}">
         <i class="fa fa-thumbs-up"></i>
     </button>
 </form>

@@ -111,7 +111,7 @@ def show_curiosity_photos():
         db.session.add(new_photo)
         db.session.commit()
     
-    return render_template("curiousity_photos.html", photos=photo_data)
+    return render_template("curiousity_photos.html", photos=photo_data, new_photo=new_photo)
 
 #___________________________________________________
 #route for onboarding user 
