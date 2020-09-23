@@ -3,6 +3,31 @@
 {% block content %}
 
 
+
+
+{% for photo in photos %}
+
+<img src="{{ photo.user.image_url }}" alt="" class="favorite-image">
+</a>
+<div class="photo-area">
+    <a href="/users/{{ photo.user.id }}">{{ photo.user.username }}</a>
+</div>
+<form method="POST" action="{{ user.id }}/favorites" class="photos-like">
+    <button class="
+                btn 
+                btn-sm 
+                {{'btn-primary' if photo.id in favorites else 'btn-secondary'}}">
+        <i class="far fa-heart"></i>
+    </button>
+</form>
+
+{% endfor %}
+
+
+
+
+
+
 <i class="fas fa-heart"></i>
 <!-- solid heart -->
 <i class="far fa-heart"></i>
