@@ -111,7 +111,7 @@ def show_curiosity_photos():
         db.session.add(new_photo)
         db.session.commit()
     
-    return render_template("curiousity_photos.html", photos=photo_data, new_photo=new_photo)
+    return render_template("curiousity_photos.html", photos=photo_data)
 
 #___________________________________________________
 #route for onboarding user 
@@ -262,9 +262,9 @@ def toggle_favorite(photo_id):
         g.user.favorites =[fave for favorite in user_faves if fave != favorited_photo] 
 
     else:
-        g.user.favorites.append(favorited_message)
+        g.user.favorites.append(favorited_photo)
 
-        return redirect("/<int:user_id>/homepage")
+        return redirect("/favorites")
     
     return redirect('/favorites')
 
