@@ -21,8 +21,8 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 db.drop_all()
-db.create_all()
-
+db.create_all() #when you're done remove these
+ 
 #T O D O create tests for models and views
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
 # Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
@@ -123,6 +123,10 @@ def create_new_user():
     form = SignUpForm()
     if form.validate_on_submit():
         try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+            )
             db.session.commit()
             db.session.add(user)
         except IntegrityError:

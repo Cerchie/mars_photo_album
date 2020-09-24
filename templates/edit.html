@@ -1,14 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- add logic here to set form and add delete btn-->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Photo Album from Mars</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/"> Return Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <form method="POST" id="user_form">
 
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' %}
 
-    {{ field(placeholder=field.label.text, class="form-control") }}
+    <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
 
     {% endfor %}
 
