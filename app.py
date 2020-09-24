@@ -237,12 +237,11 @@ def logout():
 @app.route("/<int:user_id>/favorites", methods=['GET', 'POST'])
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
+    user = User.query.get_or_404(user_id)
     
     if not g.user:
         flash("Please login.")
         return redirect("/")
-
-    user = User.query.get_or_404(user_id)
 
     return render_template('favorites.html', user=user, favorites=user.favorites)
 
@@ -270,6 +269,18 @@ def toggle_favorite(photo_id):
 
     return redirect(f"/{g.user.id}/favorites")
 
+@app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET'])
+def delete_favorite(favorite_id):
+    user = User.query.get_or_404(user_id)
+    favorite = Favorites.query.get_or_404(favorite_id)
+    if not g.user:
+        flash("Please login.")
+        return redirect("/")
+
+        db.session.delete(favorite)
+        db.session.commit()
+
+    return redirect(f"/{g.user.id}/favorites") 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise
 #________________________________________________________

@@ -4,22 +4,20 @@
 
 
 
-
+Your Favorite Mars Photos
 {% for favorite in favorites %}
 
 <img src="{{ favorite.image_url }}" alt="" class="favorite-image">
 </a>
-<form method="POST" action="/{{ user.id }}/favorites" class="photos-like">
+<form method="POST" action="/photos/{{favorite.id}}/favorite" class="photos-like">
     <button class="
                 btn 
                 btn-sm 
                 {{'btn-primary' if favorite.id in favorites else 'btn-secondary'}}">
         <i class="far fa-heart"></i>
     </button>
-</form>
 
-{% endfor %}
 
-Hello world, this is a Mars rover page where you can view your favorite rover photos
+    {% endfor %}
 
-{% endblock %}
+    {% endblock %}
