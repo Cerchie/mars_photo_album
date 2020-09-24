@@ -7,7 +7,7 @@
 
 {% for favorite in favorites %}
 
-<img src="{{ favorite.user.image_url }}" alt="" class="favorite-image">
+<img src="{{ favorite.image_url }}" alt="" class="favorite-image">
 </a>
 <form method="POST" action="/{{ user.id }}/favorites" class="photos-like">
     <button class="
