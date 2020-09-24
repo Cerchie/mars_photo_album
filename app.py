@@ -143,7 +143,7 @@ def create_new_user():
 #___________________________________________________
 #routes for user capabilities
 #___________________________________________________
-@app.route("/<int:user_id>/edit")
+@app.route("users/<int:user_id>/edit")
 def show_editpage(user_id):
     """show edit page"""
     user = User.query.get_or_404(user_id)
@@ -154,7 +154,7 @@ def show_editpage(user_id):
     form = UserEditForm()
     return render_template('edit.html', form=form, user=user)
 
-@app.route("/<int:user_id>/edit", methods=["POST"])
+@app.route("users/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
     """handle form submission for updating user"""
     user = User.query.get_or_404(user_id)

@@ -59,7 +59,7 @@ class UserViewTestCase(TestCase):
         db.session.rollback()
         return resp
 
-    def test_user_show(self): 
+    def test_user_edit_page(self): 
         with self.client as c:
             resp = c.get(f"/{self.testuser_id}/edit")  # route is users/userid
 
