@@ -58,3 +58,9 @@ class UserViewTestCase(TestCase):
         resp = super().tearDown()
         db.session.rollback()
         return resp
+
+    def test_user_show(self): 
+        with self.client as c:
+            resp = c.get(f"/{self.testuser_id}/edit")  # route is users/userid
+
+            self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
