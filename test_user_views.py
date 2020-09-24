@@ -39,18 +39,18 @@ class UserViewTestCase(TestCase):
         self.testuser_id = 8989  # creating a user id
         self.testuser.id = self.testuser_id  # setting the user id to our test user
 
-        self.u1 = User.signup("abc", "test1@test.com",
-                              "password", None)  # creating test user 1
+        self.u1 = User.signup("abc",
+                              "password")  # creating test user 1
         self.u1_id = 778  # creating a user id
         self.u1.id = self.u1_id  # setting the user id to our test user
-        self.u2 = User.signup("efg", "test2@test.com",
-                              "password", None)  # creating test user 2
+        self.u2 = User.signup("efg",
+                              "password")  # creating test user 2
         self.u2_id = 884  # creating a user id
         self.u2.id = self.u2_id  # setting the user id to our test user
         # creating test user 3, no id
-        self.u3 = User.signup("hij", "test3@test.com", "password", None)
+        self.u3 = User.signup("hij", "password")
         # creating test user 4, no id
-        self.u4 = User.signup("testing", "test4@test.com", "password", None)
+        self.u4 = User.signup("testing", "password")
 
         db.session.commit()
 
