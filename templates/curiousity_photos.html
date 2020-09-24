@@ -25,13 +25,17 @@
 </div>
 
 <div class="favorite-btn-container m-2 p-2">
-    <form method="POST" action="/photos/{{photo.id}}/favorite">
-        <button class="
-          btn 
-          btn-sm 
-          {{'btn-primary' if photo.id in favorites else 'btn-secondary'}}">
-            <i class="far fa-heart"> Favorite</i>
+    <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorite">
+        {% if photo.id in favorites %}
+        <button class="{{'btn btn-primary' if photo.id in favorites else 'btn btn-secondary'}}">
+            <i class="fa fa-heart"> Favorite </i>
         </button>
+        {% else %}
+        <button class="{{'btn btn-primary' if photo.id in favorites else 'btn btn-secondary'}}">
+            <i class="fa fa-heart"> Remove Favorite </i>
+        </button>
+        {% endif %}
+
     </form>
 </div>
 {% endfor %}

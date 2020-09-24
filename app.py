@@ -101,8 +101,9 @@ def show_curiosity_photos():
     """route to display Curiosity info and photos"""
     
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
-
+    favorites = Favorites.query.all()
     data = mission_info_resp.json()
+    
     photo_data = data["latest_photos"]
     for datum in photo_data:
         photo = datum["img_src"]
@@ -112,7 +113,7 @@ def show_curiosity_photos():
         db.session.commit()
 
     photos_from_db = Photos.query.all()
-    return render_template("curiousity_photos.html", photos=photos_from_db)
+    return render_template("curiousity_photos.html", photos=photos_from_db, favorites=favorites)
     
 
 #___________________________________________________
