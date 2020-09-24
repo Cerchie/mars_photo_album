@@ -19,15 +19,18 @@
 
     {% for field in form if field.widget.input_type != 'hidden' %}
 
-    {{ field(placeholder=field.label.text, class="form-control") }}
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+
+    <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
 
     {% endfor %}
 
-    <button>submit</button>
+    <div class="m-4"><button>submit</button></div>
 
 </form>
 
-Hello world, this is a Mars rover page where you can login
 
 
 <a href="/">return home</a>
