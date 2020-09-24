@@ -123,12 +123,8 @@ def create_new_user():
     form = SignUpForm()
     if form.validate_on_submit():
         try:
-            user = User.signup(
-                username=form.username.data,
-                password=form.password.data,
-            )
             db.session.commit()
-        
+            db.session.add(user)
         except IntegrityError:
             flash("Please pick a unique username", "error") 
             return render_template('signup.html', form=form)
