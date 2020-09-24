@@ -237,7 +237,7 @@ def logout():
 @app.route("/<int:user_id>/favorites", methods=['GET', 'POST'])
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
-
+    
     if not g.user:
         flash("Please login.")
         return redirect("/")
@@ -269,13 +269,6 @@ def toggle_favorite(photo_id):
     db.session.commit()
 
     return redirect(f"/{g.user.id}/favorites")
-    
-
-
-@app.route("/photos/<int:photo_id>")
-def show_photo():
-    """routes for viewing a particular photo"""
-    return render_template('photo.html')
 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise

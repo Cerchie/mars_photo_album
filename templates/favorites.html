@@ -5,33 +5,20 @@
 
 
 
-{% for photo in photos %}
+{% for favorite in favorites %}
 
-<img src="{{ photo.user.image_url }}" alt="" class="favorite-image">
+<img src="{{ favorite.user.image_url }}" alt="" class="favorite-image">
 </a>
-<div class="photo-area">
-    <a href="/users/{{ photo.user.id }}">{{ photo.user.username }}</a>
-</div>
-<form method="POST" action="{{ user.id }}/favorites" class="photos-like">
+<form method="POST" action="/{{ user.id }}/favorites" class="photos-like">
     <button class="
                 btn 
                 btn-sm 
-                {{'btn-primary' if photo.id in favorites else 'btn-secondary'}}">
+                {{'btn-primary' if favorite.id in favorites else 'btn-secondary'}}">
         <i class="far fa-heart"></i>
     </button>
 </form>
 
 {% endfor %}
-
-
-
-
-
-
-<i class="fas fa-heart"></i>
-<!-- solid heart -->
-<i class="far fa-heart"></i>
-<!-- heart outline -->
 
 Hello world, this is a Mars rover page where you can view your favorite rover photos
 
