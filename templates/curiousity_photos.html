@@ -26,7 +26,7 @@
 
 <div class="favorite-btn-container m-2 p-2">
     <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
-        <!-- <button class="
+        <button class="
           btn 
           btn-sm 
           {{'btn-primary' if photo.id in favorites else 'btn-success'}}">
@@ -35,12 +35,8 @@
             {% else %}
             <i class="fas fa-heart"> Add to Favorites </i>
             {% endif %}
-        </button> -->
-        <input id='fav' type='checkbox'>
-        <label for='fav'>
-            <i class="fa fa-heart-o"></i>
-            <i class="fa fa-heart"></i>
-        </label>
+        </button>
+
     </form>
 </div>
 

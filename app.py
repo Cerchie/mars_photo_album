@@ -105,14 +105,18 @@ def show_curiosity_photos():
     data = mission_info_resp.json()
     
     photo_data = data["latest_photos"]
-    for datum in photo_data:
-        photo = datum["img_src"]
-        
-        new_photo = Photos(image_url=photo)
-        db.session.add(new_photo)
-        db.session.commit()
 
-    photos_from_db = Photos.query.all()
+    count = 0
+    for datum in photo_data:
+        while count < 26:
+            count += 1
+            photo = datum["img_src"]
+            new_photo = Photos(image_url=photo)
+            db.session.add(new_photo)
+            db.session.commit()
+        
+
+    photos_from_db = Photos.query.limit(25).all()
     return render_template("curiousity_photos.html", photos=photos_from_db, favorites=favorites)
     
 
