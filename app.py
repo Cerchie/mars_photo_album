@@ -20,8 +20,8 @@ app.config['SECRET_KEY'] = SECRET
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
-db.drop_all()
-db.create_all() #when you're done remove these
+# db.drop_all()
+# db.create_all() #when you're done remove these
  
 #T O D O create tests for models and views
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
@@ -106,10 +106,8 @@ def show_curiosity_photos():
     data = mission_info_resp.json()
     
     photo_data = data["latest_photos"]
-    for favorite in favorites:
-    
         
-        for datum in photo_data:
+    for datum in photo_data:
             photo = datum["img_src"]
             new_photo = Photos(image_url=photo)
             db.session.add(new_photo)
