@@ -275,7 +275,8 @@ def toggle_favorite(photo_id):
 
     db.session.commit()
 
-    return redirect(f"/{g.user.id}/favorites")
+    return redirect(f"/curiosity/photos")
+    # return redirect(f"/{g.user.id}/favorites")
 
 # @app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET']) don't need this route because I'm toggling
 # def delete_favorite(favorite_id):
