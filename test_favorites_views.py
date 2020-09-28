@@ -54,7 +54,19 @@ class UserViewTestCase(TestCase):
 
         db.session.commit()
 
+    def setup_faves(self):  # setting up faves for faves tests
+        # creating 3 photos, last is the only one with id
+        p1 = Photo(image_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2533&q=80",)
+        p2 = Photo(image_url="https://images.unsplash.com/photo-1601132359864-c974e79890ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",)
+        p3 = Photo(id=9876, image_url="https://images.unsplash.com/photo-1484662020986-75935d2ebc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",)
+        db.session.add_all([p1, p2, p3])
+        db.session.commit()  # adding and committing to session
 
+        f1 = Favorites(user_id=self.testuser_id,
+                   photo_id=9876)  # setting up likes
+
+        db.session.add(l1)
+        db.session.commit()  # committing likes to session
 
     def test_add_fave(self):
         # creating photo instance and adding to session
