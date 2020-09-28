@@ -56,17 +56,17 @@ class UserViewTestCase(TestCase):
 
     def setup_faves(self):  # setting up faves for faves tests
         # creating 3 photos, last is the only one with id
-        p1 = Photo(image_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2533&q=80",)
-        p2 = Photo(image_url="https://images.unsplash.com/photo-1601132359864-c974e79890ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",)
-        p3 = Photo(id=9876, image_url="https://images.unsplash.com/photo-1484662020986-75935d2ebc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",)
+        p1 = Photos(image_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2533&q=80",)
+        p2 = Photos(image_url="https://images.unsplash.com/photo-1601132359864-c974e79890ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",)
+        p3 = Photos(id=9876, image_url="https://images.unsplash.com/photo-1484662020986-75935d2ebc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",)
         db.session.add_all([p1, p2, p3])
         db.session.commit()  # adding and committing to session
 
         f1 = Favorites(user_id=self.testuser_id,
-                   photo_id=9876)  # setting up likes
+                   photo_id=9876)  # setting up faves
 
-        db.session.add(l1)
-        db.session.commit()  # committing likes to session
+        db.session.add(f1)
+        db.session.commit()  # committing faves to session
 
     def test_add_fave(self):
         # creating photo instance and adding to session
@@ -80,17 +80,19 @@ class UserViewTestCase(TestCase):
                 # checking that user must be signed in
                 sess[CURR_USER_KEY] = self.testuser_id
 
-            # setting route to like instance
+            # setting route to fave instance
             resp = c.post("/photos/1984/favorite", follow_redirects=True)
             # checking that page shows up
             self.assertEqual(resp.status_code, 200)
 
             # getting faves with photo_id 1984
             faves = Favorites.query.filter(Favorites.photo_id == 1984).all()
-            # checking that the number of likes = 1
+            # checking that the number of faves = 1
             self.assertEqual(len(faves), 1)
-            # checking that the likes with the user_id we have matches our test like
+            # checking that the likes with the user_id we have matches our test fave
             self.assertEqual(faves[0].user_id, self.testuser_id)
+
+
 
     def tearDown(self):
         resp = super().tearDown()

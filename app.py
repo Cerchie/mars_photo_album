@@ -74,6 +74,7 @@ def show_homepage():
 @app.route("/<int:user_id>/homepage")
 def show_logged_in_homepage(user_id):
     """route to display logged-in homepage"""
+    
     today = datetime.utcnow()
     user = User.query.get_or_404(user_id)
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
@@ -105,8 +106,9 @@ def show_curiosity_photos():
     data = mission_info_resp.json()
     
     photo_data = data["latest_photos"]
-
-    count = 0
+    for favorite in favorites:
+    
+        count = 0
     for datum in photo_data:
         while count < 26:
             count += 1
@@ -186,6 +188,11 @@ def show_user_page(user_id):
 
 @app.route("/<int:user_id>/delete", methods=['GET'])
 def show_delete_page(user_id):
+    
+    # if not g.user:
+    #         flash("Please login.", "error")
+    #     return redirect("/")
+
     """show page for deleting user"""
     user = User.query.get_or_404(user_id)
     return render_template('delete_page.html', user=user)
@@ -196,7 +203,7 @@ def delete(user_id):
     user = User.query.get_or_404(user_id)
 
     if not g.user:
-        flash("Please login.")
+        flash("Please login.", "error")
         return redirect("/")
 
         do_logout()
@@ -253,11 +260,11 @@ def show_favoritespage(user_id):
 @app.route('/photos/<int:photo_id>/favorite', methods=['GET', 'POST'])
 def toggle_favorite(photo_id):
     """route for toggling a favorite in and out of user's faves"""
-    
+    # http://127.0.0.1:5000/photos//favorite
     if not g.user:
         flash("Please login.")
         return redirect("/")
-
+  
     favorited_photo = Photos.query.get_or_404(photo_id)
     if favorited_photo.user_id == g.user.id:
         return abort(403)
@@ -272,7 +279,7 @@ def toggle_favorite(photo_id):
 
     db.session.commit()
 
-    return redirect(f"/{g.user.id}/favorites")
+    return redirect(f"/{g.user.id}/favorites",  user=user, favorites=user.favorites)
 
 @app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET'])
 def delete_favorite(favorite_id):
@@ -285,7 +292,7 @@ def delete_favorite(favorite_id):
         db.session.delete(favorite)
         db.session.commit()
 
-    return redirect(f"/{g.user.id}/favorites") 
+    return redirect(f"/{g.user.id}/favorites", user=user, favorites=user.favorites) 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise
 #________________________________________________________

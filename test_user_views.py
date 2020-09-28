@@ -61,6 +61,40 @@ class UserViewTestCase(TestCase):
             resp = c.get(f"/users/{self.testuser_id}/edit")  # route is users/userid
 
             self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
+#___________________________________
+# When you’re logged out, are you disallowed from visiting unauthorized pages?
+#___________________________________
+    def test_unauthorized_users_favorites(self):
+        with self.client as c:
+            resp = c.get(f"/{self.testuser_id}/favorites", follow_redirects = True) #grabbing route
+            self.assertEqual(resp.status_code, 200)  # route shows up
+            self.assertNotIn("@abc", str(resp.data))
+            # and that the error msg shows
+            self.assertIn("Please login.", str(resp.data))
+
+    def test_unauthorized_users_homepage(self):
+        with self.client as c:
+            resp = c.get(f"/{self.testuser_id}/homepage", follow_redirects = True) #grabbing route
+            self.assertEqual(resp.status_code, 200)  # route shows up
+            self.assertNotIn("@abc", str(resp.data))
+            # and that the error msg shows
+            self.assertIn("Please login.", str(resp.data))
+
+    def test_unauthorized_users_edit_page(self):
+        with self.client as c:
+            resp = c.get(f"/users/{self.testuser_id}/edit", follow_redirects = True) #grabbing route
+            self.assertEqual(resp.status_code, 200)  # route shows up
+            self.assertNotIn("@abc", str(resp.data))
+            # and that the error msg shows
+            self.assertIn("Please login.", str(resp.data))
+
+    def test_unauthorized_users_delete(self):
+        with self.client as c:
+            resp = c.get(f"/{self.testuser_id}/delete", follow_redirects = True) #grabbing route
+            self.assertEqual(resp.status_code, 200)  # route shows up
+            self.assertNotIn("@abc", str(resp.data))
+            # and that the error msg shows
+            self.assertIn("Please login.", str(resp.data))
 
     def tearDown(self):
         resp = super().tearDown()
