@@ -36,6 +36,8 @@ class User(db.Model):
         nullable=False,
     )
 
+    photos = db.relationship('Photos')
+
     favorites = db.relationship(
         'Photos',
         secondary="favorites"

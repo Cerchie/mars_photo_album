@@ -26,16 +26,15 @@
 
 <div class="favorite-btn-container m-2 p-2">
     <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
-        <button class="
-          btn 
-          btn-sm 
-          {{'btn-primary' if photo.id in favorites else 'btn-success'}}">
-            {% if photo.id in favorites %}
-            <i class="far fa-heart"> Remove Favorite </i>
-            {% else %}
-            <i class="fas fa-heart"> Add to Favorites </i>
-            {% endif %}
+        {% if photo['id'] not in favorites %}
+        <button class="btn btn-sm ">
+            <i class="fas fa-heart">Add Favorite</i>
         </button>
+        {% else %}
+        <button class="btn btn-sm ">
+            <i class="far fa-heart">Remove Favorite</i>
+        </button>
+        {% endif %}
 
     </form>
 </div>

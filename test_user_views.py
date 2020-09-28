@@ -13,7 +13,7 @@ from models import db, connect_db, Photos, User, Favorites
 from bs4 import BeautifulSoup
 
 #testing db below
-os.environ['DATABASE_URL'] = "postgresql:///warbler-test"
+os.environ['DATABASE_URL'] = "postgresql:///mars-test"
 
 #creating tables
 db.create_all()
@@ -54,13 +54,15 @@ class UserViewTestCase(TestCase):
 
         db.session.commit()
 
+
+
+    def test_user_edit_page(self): 
+        with self.client as c:
+            resp = c.get(f"/users/{self.testuser_id}/edit")  # route is users/userid
+
+            self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
+
     def tearDown(self):
         resp = super().tearDown()
         db.session.rollback()
         return resp
-
-    def test_user_edit_page(self): 
-        with self.client as c:
-            resp = c.get(f"/{self.testuser_id}/edit")  # route is users/userid
-
-            self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
