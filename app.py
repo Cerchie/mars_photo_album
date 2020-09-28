@@ -20,8 +20,8 @@ app.config['SECRET_KEY'] = SECRET
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
-# db.drop_all()
-# db.create_all() #when you're done remove these
+db.drop_all()
+db.create_all() #when you're done remove these
  
 #T O D O create tests for models and views
 #T O D O make it so mission info page has well written copy, maybe info from API calls. 
@@ -108,10 +108,8 @@ def show_curiosity_photos():
     photo_data = data["latest_photos"]
     for favorite in favorites:
     
-        count = 0
-    for datum in photo_data:
-        while count < 26:
-            count += 1
+        
+        for datum in photo_data:
             photo = datum["img_src"]
             new_photo = Photos(image_url=photo)
             db.session.add(new_photo)
@@ -273,26 +271,26 @@ def toggle_favorite(photo_id):
 
     if favorited_photo in user_faves:
         g.user.favorites =[favorite for favorite in user_faves if favorite != favorited_photo] 
-
+        print(photo_id)
     else:
         g.user.favorites.append(favorited_photo)
 
     db.session.commit()
 
-    return redirect(f"/{g.user.id}/favorites",  user=user, favorites=user.favorites)
+    return redirect(f"/{g.user.id}/favorites")
 
-@app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET'])
-def delete_favorite(favorite_id):
-    user = User.query.get_or_404(user_id)
-    favorite = Favorites.query.get_or_404(favorite_id)
-    if not g.user:
-        flash("Please login.")
-        return redirect("/")
+# @app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET']) don't need this route because I'm toggling
+# def delete_favorite(favorite_id):
+    
+#     favorite = Favorites.query.get_or_404(favorite_id)
+#     if not g.user:
+#         flash("Please login.")
+#         return redirect("/")
 
-        db.session.delete(favorite)
-        db.session.commit()
+#         db.session.delete(favorite)
+#         db.session.commit()
 
-    return redirect(f"/{g.user.id}/favorites", user=user, favorites=user.favorites) 
+#     return redirect(f"/{g.user.id}/favorites") 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise
 #________________________________________________________
