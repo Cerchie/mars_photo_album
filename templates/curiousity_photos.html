@@ -27,10 +27,10 @@
 <div class="photo-container m-2 p-2"><img src="{{photo.image_url}}"
         alt="mars rover photo, black and white, rocky terrain">
 </div>
-{% if photo.id not in g.user.favorites %}
+
 <div class="favorite-btn-container m-2 p-2">
     <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
-
+        {% if photo.id not in favorites %}
         <button class="btn btn-sm ">
             <i class="far fa-heart">Add Favorite</i>
         </button>

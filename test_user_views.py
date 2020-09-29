@@ -62,11 +62,58 @@ class UserViewTestCase(TestCase):
 
             self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
 #___________________________________
-# When you’re logged out, are you disallowed from visiting unauthorized pages?
+# LOGIN/LOGOUT ROUTES
+#___________________________________
+
+
+
+
+#___________________________________
+# USER CAPABILITIES
+#___________________________________
+
+    def test_show_editpage(self):
+        with app.test_client() as client:
+            resp = client.get(f"users/{self.testuser_id}/edit") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("<title>", html) #test redirecting html
+            self.assertEqual(resp.status_code, 302) #test that it redirects
+
+    def test_edit_user(self):
+        with app.test_client() as client:
+            d = {"username": "Chickens2", "password": "Scratchscratch"} #set up JSON
+            resp = client.post(f"users/{self.testuser_id}/edit", data=d, follow_redirects=True)  #post JSON to route
+            self.assertEqual(resp.status_code, 200) #check that route comes back
+
+    def test_show_user_page(self):
+        with app.test_client() as client:
+            resp = client.get(f"/users/{self.testuser_id}/edit") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("Redirecting", html)
+            self.assertEqual(resp.status_code, 302) #check that route redirects
+
+#___________________________________
+# CREATE/DELETE USER ROUTES
+#___________________________________
+    def test_add_user(self):
+        with app.test_client() as client:
+            d = {"username": "Lucy2", "password": "Narnia"} #set up JSON
+            resp = client.post("/users/signup", data=d, follow_redirects=True) #post JSON to route
+            self.assertEqual(resp.status_code, 200) #check that route comes back
+    
+    def test_delete(self):
+        with app.test_client() as client:
+            resp = client.get(f"/users/{self.testuser_id}/delete")
+            html = resp.get_data(as_text=True)
+            self.assertNotIn("Please login.", html) #test that user is logged in
+            self.assertNotIn(f"{self.testuser_id}", str(resp.data)) #test that username is not in resp
+            self.assertEqual(resp.status_code, 302) #test that route redirects properly
+#___________________________________
+# when you’re logged out, are you disallowed from visiting unauthorized pages?
 #___________________________________
     def test_unauthorized_users_favorites(self):
         with self.client as c:
-            resp = c.get(f"/{self.testuser_id}/favorites", follow_redirects = True) #grabbing route
+            resp = c.get(f"/users/{self.testuser_id}/favorites", follow_redirects = True) #grabbing route
             self.assertEqual(resp.status_code, 200)  # route shows up
             self.assertNotIn("@abc", str(resp.data))
             # and that the error msg shows
@@ -90,7 +137,7 @@ class UserViewTestCase(TestCase):
 
     def test_unauthorized_users_delete(self):
         with self.client as c:
-            resp = c.get(f"/{self.testuser_id}/delete", follow_redirects = True) #grabbing route
+            resp = c.get(f"users/{self.testuser_id}/delete", follow_redirects = True) #grabbing route
             self.assertEqual(resp.status_code, 200)  # route shows up
             self.assertNotIn("@abc", str(resp.data))
             # and that the error msg shows

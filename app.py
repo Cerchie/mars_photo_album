@@ -104,7 +104,8 @@ def show_curiosity_photos():
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
     favorites = Favorites.query.all()
     data = mission_info_resp.json()
-    
+    favorites = [photo.id for photo in g.user.favorites]
+
     photo_data = data["latest_photos"]
         
     for datum in photo_data:
@@ -121,7 +122,7 @@ def show_curiosity_photos():
 #___________________________________________________
 #route for onboarding user 
 #___________________________________________________
-@app.route('/user/signup', methods=['GET', 'POST'])
+@app.route('/users/signup', methods=['GET', 'POST'])
 def create_new_user():
     """sign up here"""
     
@@ -171,7 +172,7 @@ def edit_user(user_id):
     
     return render_template(f'/{user.id}/edit', form=form, user=user)
 
-@app.route("/user/<int:user_id>")
+@app.route("/users/<int:user_id>")
 def show_user_page(user_id):
     """show user info"""
     user = User.query.get_or_404(user_id)
@@ -182,18 +183,18 @@ def show_user_page(user_id):
 
     return render_template('user_info.html', user=user)
 
-@app.route("/<int:user_id>/delete", methods=['GET'])
+@app.route("/users/<int:user_id>/delete", methods=['GET'])
 def show_delete_page(user_id):
     
-    # if not g.user:
-    #         flash("Please login.", "error")
-    #     return redirect("/")
+    if not g.user:
+        flash("Please login.", "error")
+        return redirect("/")
 
     """show page for deleting user"""
     user = User.query.get_or_404(user_id)
     return render_template('delete_page.html', user=user)
 
-@app.route("/<int:user_id>/delete", methods=['POST'])
+@app.route("/users/<int:user_id>/delete", methods=['POST'])
 def delete(user_id):
     """delete user."""
     user = User.query.get_or_404(user_id)
@@ -242,7 +243,7 @@ def logout():
 #___________________________________________________
 #routes for adding/deleting/editing user favorites
 #___________________________________________________
-@app.route("/<int:user_id>/favorites", methods=['GET', 'POST'])
+@app.route("/users/<int:user_id>/favorites", methods=['GET', 'POST'])
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
     user = User.query.get_or_404(user_id)
@@ -278,19 +279,6 @@ def toggle_favorite(photo_id):
 
     return redirect(f"/curiosity/photos")
     # return redirect(f"/{g.user.id}/favorites")
-
-# @app.route("/favorites/<int:favorite_id>/delete", methods=['POST', 'GET']) don't need this route because I'm toggling
-# def delete_favorite(favorite_id):
-    
-#     favorite = Favorites.query.get_or_404(favorite_id)
-#     if not g.user:
-#         flash("Please login.")
-#         return redirect("/")
-
-#         db.session.delete(favorite)
-#         db.session.commit()
-
-#     return redirect(f"/{g.user.id}/favorites") 
 #________________________________________________________
 #after request borrowed from warbler Springboard exercise
 #________________________________________________________
