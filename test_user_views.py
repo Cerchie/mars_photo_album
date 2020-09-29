@@ -65,16 +65,23 @@ class UserViewTestCase(TestCase):
 # LOGIN/LOGOUT ROUTES
 #___________________________________
 
-
-
-
+    def test_login(self):
+        with app.test_client() as client:
+            resp = client.get(f"/login") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("return home", html)
+            self.assertEqual(resp.status_code, 200) #check that route comes back
+    def test_logout(self):
+        with app.test_client() as client:
+            resp = client.get(f"/logout") #attach route
+            self.assertEqual(resp.status_code, 302) #check that route redirects
 #___________________________________
 # USER CAPABILITIES
 #___________________________________
 
     def test_show_editpage(self):
         with app.test_client() as client:
-            resp = client.get(f"users/{self.testuser_id}/edit") #attach route
+            resp = client.get(f"/users/{self.testuser_id}/edit") #attach route
             html = resp.get_data(as_text=True) #pull html resp
             self.assertIn("<title>", html) #test redirecting html
             self.assertEqual(resp.status_code, 302) #test that it redirects
@@ -82,15 +89,16 @@ class UserViewTestCase(TestCase):
     def test_edit_user(self):
         with app.test_client() as client:
             d = {"username": "Chickens2", "password": "Scratchscratch"} #set up JSON
-            resp = client.post(f"users/{self.testuser_id}/edit", data=d, follow_redirects=True)  #post JSON to route
+            resp = client.post(f"/users/{self.testuser_id}/edit", data=d, follow_redirects=True)  #post JSON to route
             self.assertEqual(resp.status_code, 200) #check that route comes back
 
     def test_show_user_page(self):
         with app.test_client() as client:
             resp = client.get(f"/users/{self.testuser_id}/edit") #attach route
             html = resp.get_data(as_text=True) #pull html resp
-            self.assertIn("Redirecting", html)
+            self.assertIn("Redirecting", html) #testing html resp
             self.assertEqual(resp.status_code, 302) #check that route redirects
+
 
 #___________________________________
 # CREATE/DELETE USER ROUTES
