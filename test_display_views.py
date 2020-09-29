@@ -39,17 +39,30 @@ class DisplayViewTestCase(TestCase):
         self.testuser_id = 8989  # creating a user id
         self.testuser.id = self.testuser_id  # setting the user id to our test user
 
-        self.u1 = User.signup("abc",
-                              "password")  # creating test user 1
-        self.u1_id = 778  # creating a user id
-        self.u1.id = self.u1_id  # setting the user id to our test user
-        self.u2 = User.signup("efg",
-                              "password")  # creating test user 2
-        self.u2_id = 884  # creating a user id
-        self.u2.id = self.u2_id  # setting the user id to our test user
-        # creating test user 3, no id
-        self.u3 = User.signup("hij", "password")
-        # creating test user 4, no id
-        self.u4 = User.signup("testing", "password")
-
         db.session.commit()
+
+
+    def test_show_homepage(self):
+        with app.test_client() as client:
+            resp = client.get("/") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("Mars", html) #test html
+            self.assertNotIn("My Account", html) #checking that logged in homepage is not displaying for this route
+            self.assertEqual(resp.status_code, 200) #test that it shows
+
+    def test_show_loggedin_homepage(self):
+        with app.test_client() as client:
+            resp = client.get(f"{self.testuser_id}/homepage") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("Redirecting", html) #checking that html supports redirects 
+            self.assertEqual(resp.status_code, 302) #test that it redirects
+
+    def test_show_mission_info(self):
+        with app.test_client() as client:
+            resp = client.get("mission-info") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("Curiosity", html) #checking that html supports display
+            self.assertEqual(resp.status_code, 200) #test that it shows up
+
+
+
