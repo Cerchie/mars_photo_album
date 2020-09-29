@@ -41,7 +41,6 @@ class DisplayViewTestCase(TestCase):
 
         db.session.commit()
 
-
     def test_show_homepage(self):
         with app.test_client() as client:
             resp = client.get("/") #attach route
@@ -64,5 +63,8 @@ class DisplayViewTestCase(TestCase):
             self.assertIn("Curiosity", html) #checking that html supports display
             self.assertEqual(resp.status_code, 200) #test that it shows up
 
-
+    def tearDown(self):
+        resp = super().tearDown()
+        db.session.rollback()
+        return resp
 
