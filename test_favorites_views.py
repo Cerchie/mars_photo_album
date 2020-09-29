@@ -94,13 +94,12 @@ class UserViewTestCase(TestCase):
         self.setup_faves()  # setting up faves
 
         p = Photos.query.filter(
-            Photos.id == 1984).one()  # finding photo
+            Photos.id == 9876)  # finding photo
         self.assertIsNotNone(p)  # checking that it's not None
-        # checking that this photo does not belong to our test user
-        self.assertNotEqual(p.user_id, self.testuser_id)
+    
 
         f = Favorites.query.filter(
-            Favorites.user_id == self.testuser_id and Favorites.message_id == m.id
+            Favorites.user_id == self.testuser_id and Favorites.user_id == p.id
         ) # checking to see that this fave is an intersection of p id and user id
 
         # Now we are sure that testuser faves the photo
@@ -109,16 +108,15 @@ class UserViewTestCase(TestCase):
         with self.client as c:
             with c.session_transaction() as sess:
                 # checking that user is logged in
-                sess[CURR_USER_KEY] = self.testuser_id
+                sess[CURR_USER_KEY] = self.testuser.id
 
-            # setting up the response as /photos/id/favorite
-            resp = c.post(f"/photos/1984/favorite", follow_redirects=True)
+            # setting up the response as /photos/id/favorite, this route will delete if favorite in the system
+            resp = c.post(f"/photos/9876/favorite", follow_redirects=True)
             # checking that we get the response
             self.assertEqual(resp.status_code, 200)
 
-            # setting up likes as the likes with p_id = to id of fave
+            # setting up favorites as the faves with p_id = to id of fave
             favorites = Favorites.query.filter(Favorites.photo_id == 1984).all()
-            # the like has been deleted
     
             #  #checking that the length of these likes is 0
             self.assertEqual(len(favorites), 0)
