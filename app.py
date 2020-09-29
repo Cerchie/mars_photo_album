@@ -104,7 +104,9 @@ def show_curiosity_photos():
     mission_info_resp = requests.get(f'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key={APIKEY}')
     favorites = Favorites.query.all()
     data = mission_info_resp.json()
-    favorites = [photo.id for photo in g.user.favorites]
+
+    if g.user:
+        favorites = [photo.id for photo in g.user.favorites]
 
     photo_data = data["latest_photos"]
         

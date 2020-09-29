@@ -40,7 +40,16 @@ class DisplayViewTestCase(TestCase):
         self.testuser.id = self.testuser_id  # setting the user id to our test user
 
         db.session.commit()
-        
+
+
+    def test_show_photos(self):
+        with app.test_client() as client:
+            resp = client.get("/curiosity/photos") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("Mars", html) #test html
+            self.assertIn("rover", html)
+            self.assertEqual(resp.status_code, 200) #test that it shows
+
     def tearDown(self):
         resp = super().tearDown()
         db.session.rollback()
