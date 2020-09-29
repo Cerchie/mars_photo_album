@@ -135,8 +135,9 @@ def create_new_user():
                 username=form.username.data,
                 password=form.password.data,
             )
-            db.session.commit()
             db.session.add(user)
+            db.session.commit()
+            
         except IntegrityError:
             flash("Please pick a unique username", "error") 
             return render_template('signup.html', form=form)
@@ -165,14 +166,33 @@ def show_editpage(user_id):
 @app.route("/users/<int:user_id>/edit", methods=["POST"])
 def edit_user(user_id):
     """handle form submission for updating user"""
-    user = User.query.get_or_404(user_id)
-    form = UserEditForm()
-    
     if not g.user:
         flash("Please login.", "error")
         return redirect("/")
     
-    return render_template(f'/{user.id}/edit', form=form, user=user)
+    form = UserEditForm()
+
+    username = form.username.data
+
+    db.session.commit()
+
+    user = g.user
+
+    if form.validate_on_submit():
+
+        if User.authenticate(user.username, form.password.data):
+
+            user.username = form.username.data
+            
+            db.session.commit()
+            
+            return redirect(f"/users/{user.id}")
+
+        flash("Wrong password, please try again.", 'danger')
+
+    flash(f"Your new username is {user.username}.")
+    
+    return redirect(f'/users/{user.id}/edit')
 
 @app.route("/users/<int:user_id>")
 def show_user_page(user_id):

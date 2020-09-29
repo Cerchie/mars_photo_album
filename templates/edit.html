@@ -18,7 +18,17 @@
     </div>
 </nav>
 
-<form method="POST" id="user_form">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<form method="POST" id="user_form" action="/users/{{user.id}}/edit">
 
     {{ form.hidden_tag() }}
 
@@ -28,10 +38,11 @@
 
     {% endfor %}
 
+    <button>submit</button>
 </form>
 
 <a href="users/{{user.id}}/delete">Delete Your Account</a>
 
-Hello world, this is a Mars rover page where you can edit your account
+Hello world, this is a Mars rover page where you can edit your username
 
 {% endblock %}
