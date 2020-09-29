@@ -79,18 +79,52 @@ class UserViewTestCase(TestCase):
             with c.session_transaction() as sess:
                 # checking that user must be signed in
                 sess[CURR_USER_KEY] = self.testuser_id
-
             # setting route to fave instance
             resp = c.post("/photos/1984/favorite", follow_redirects=True)
             # checking that page shows up
             self.assertEqual(resp.status_code, 200)
-
             # getting faves with photo_id 1984
             faves = Favorites.query.filter(Favorites.photo_id == 1984).all()
             # checking that the number of faves = 1
             self.assertEqual(len(faves), 1)
-            # checking that the likes with the user_id we have matches our test fave
+            # checking that the faves with the user_id we have matches our test fave
             self.assertEqual(faves[0].user_id, self.testuser_id)
+
+    def test_remove_fave(self):
+        self.setup_faves()  # setting up faves
+
+        p = Photos.query.filter(
+            Photos.id == 1984).one()  # finding photo
+        self.assertIsNotNone(p)  # checking that it's not None
+        # checking that this photo does not belong to our test user
+        self.assertNotEqual(p.user_id, self.testuser_id)
+
+        f = Favorites.query.filter(
+            Favorites.user_id == self.testuser_id and Favorites.message_id == m.id
+        ) # checking to see that this fave is an intersection of p id and user id
+
+        # Now we are sure that testuser faves the photo
+        self.assertIsNotNone(f)  # checking that the value of fave is not None
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                # checking that user is logged in
+                sess[CURR_USER_KEY] = self.testuser_id
+
+            # setting up the response as /photos/id/favorite
+            resp = c.post(f"/photos/1984/favorite", follow_redirects=True)
+            # checking that we get the response
+            self.assertEqual(resp.status_code, 200)
+
+            # setting up likes as the likes with p_id = to id of fave
+            favorites = Favorites.query.filter(Favorites.photo_id == 1984).all()
+            # the like has been deleted
+    
+            #  #checking that the length of these likes is 0
+            self.assertEqual(len(favorites), 0)
+
+
+
 
 
 
