@@ -121,8 +121,12 @@ class UserViewTestCase(TestCase):
             #  #checking that the length of these likes is 0
             self.assertEqual(len(favorites), 0)
 
-
-
+    def test_show_faves(self):
+        with app.test_client() as client:
+            resp = client.get(f"/users/{self.testuser_id}/favorites") #attach route
+            html = resp.get_data(as_text=True) #pull html resp
+            self.assertIn("<title>", html) #test html redirect code
+            self.assertEqual(resp.status_code, 302) #test that it shows
 
 
 
