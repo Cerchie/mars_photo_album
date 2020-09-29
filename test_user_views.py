@@ -10,7 +10,7 @@ import os
 from unittest import TestCase
 
 from models import db, connect_db, Photos, User, Favorites
-from bs4 import BeautifulSoup
+
 
 #testing db below
 os.environ['DATABASE_URL'] = "postgresql:///mars-test"
@@ -54,13 +54,6 @@ class UserViewTestCase(TestCase):
 
         db.session.commit()
 
-
-
-    def test_user_edit_page(self): 
-        with self.client as c:
-            resp = c.get(f"/users/{self.testuser_id}/edit")  # route is users/userid
-
-            self.assertEqual(resp.status_code, 302)  # redirect happens when user is not signed in
 #___________________________________
 # LOGIN/LOGOUT ROUTES
 #___________________________________
@@ -98,8 +91,6 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True) #pull html resp
             self.assertIn("Redirecting", html) #testing html resp
             self.assertEqual(resp.status_code, 302) #check that route redirects
-
-
 #___________________________________
 # CREATE/DELETE USER ROUTES
 #___________________________________
