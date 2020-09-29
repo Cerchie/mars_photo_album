@@ -12,7 +12,7 @@ from models import db, User, Photos, Favorites
 
 # different db for tests
 
-os.environ['DATABASE_URL'] = "postgresql:///warbler-test"
+os.environ['DATABASE_URL'] = "postgresql:///mars-test"
 
 from app import app
 #
