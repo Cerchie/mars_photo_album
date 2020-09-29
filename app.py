@@ -269,10 +269,11 @@ def toggle_favorite(photo_id):
 
     if favorited_photo in user_faves:
         g.user.favorites =[favorite for favorite in user_faves if favorite != favorited_photo] 
-        print(photo_id)
+        
     else:
         g.user.favorites.append(favorited_photo)
-
+    
+    db.session.add(favorited_photo)
     db.session.commit()
 
     return redirect(f"/curiosity/photos")
