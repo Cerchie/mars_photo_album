@@ -2,7 +2,6 @@
 
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Photo Album from Mars</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -16,36 +15,73 @@
             <li class="nav-item">
                 <a class="nav-link" href="/login">Log In</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/mission-info">More Info</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/curiosity/photos">Photos from Curiosity</a>
-            </li>
         </ul>
     </div>
 </nav>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 
-
-<div id="weather-widget"></div>
-
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top"
-        src="https://images.unsplash.com/photo-1532954751162-d1b6d1f3b1a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
-        alt="The red planet alone in space">
-    <div class="card-body">
-        <h5 class="card-title">What's the weather like on Mars today?</h5>
-        <p class="card-text"> {{celsius_on_mars}} degrees Celsius</p>
+<div class="container bg-dark text-white">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</div>
+<div class="jumbotron jumbotron-fluid bg-danger text-white">
+    <div class="container m-0">
+        <h1 class="display-4"> The Mars Photo Album</h1>
+        <p class="lead text-monospace">Curious about Curiosity? You've come to the right place!</p>
     </div>
+</div>
+
+
+<div class="row bg-info text-white p-4">
+    <div class="col-12 col-sm-6 col-md-4">
+        <div class="card">
+            <div class="card-body" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://images.unsplash.com/photo-1451188502541-13943edb6acb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1700&q=80"
+                    alt="The wrinkled surface of the red planet">
+
+                <h5 class=" card-title text-dark m-1">Did you know...</h5>
+                <p class="card-text text-dark"> It's {{celsius_on_mars}} degrees Celsius on Mars today!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 ">
+        <div class="card">
+            <div class="card-body" style="width: 18rem;">
+                <img class="card-img-top"
+                    src="https://images.unsplash.com/photo-1476304884326-cd2c88572c5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+                    alt="The red planet alone in space">
+                <h5 class="card-text text-dark m-1">Learn more</h5>
+                <p class="card-text text-dark m-1">What is Curiosity's mission and history?</p>
+                <a href="/mission-info" class="btn btn-danger">More Information</a>
+            </div>
+        </div>
+    </div>
+    <div class=" col-12 col-sm-6 col-md-4">
+        <div class="card">
+            <div class="card-body" style=" width: 18rem;">
+                <img class="card-img-top"
+                    src="https://images.unsplash.com/photo-1451188214936-ec16af5ca155?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1700&q=80"
+                    alt="The wrinkled surface of the red planet">
+                <h5 class="card-title text-dark m-1">
+                    Photos from Curiosity</h5>
+                <p class="card-text text-dark">You can take a look at the latest photos taken by Curiosity every sol
+                    (24
+                    hours 39 minutes 35.244
+                    seconds). <a href="/users/signup">Sign up</a> to save your favorites! </p>
+                <a href="/curiosity/photos" class="btn btn-danger">View photos</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 
 {% endblock %}

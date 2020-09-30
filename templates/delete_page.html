@@ -4,7 +4,7 @@
 
 <a href="/users/{{user.id}}">Go back to my account</a>
 
-<form method="POST" id="user_form">
+<form method="POST" id="user_form" action="/users/{{user.id}}/delete">
     Are you sure you want to delete your account?
 
     <button id="delete-btn">Yes I am</button>

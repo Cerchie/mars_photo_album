@@ -185,7 +185,7 @@ def edit_user(user_id):
             user.username = form.username.data
             
             db.session.commit()
-            
+
             return redirect(f"/users/{user.id}")
 
         flash("Wrong password, please try again.", 'danger')
@@ -197,22 +197,22 @@ def edit_user(user_id):
 @app.route("/users/<int:user_id>")
 def show_user_page(user_id):
     """show user info"""
-    user = User.query.get_or_404(user_id)
 
     if not g.user:
         flash("Please login.", "error")
         return redirect("/")
+
+    user = User.query.get_or_404(user_id)
 
     return render_template('user_info.html', user=user)
 
 @app.route("/users/<int:user_id>/delete", methods=['GET'])
 def show_delete_page(user_id):
-    
+    """show page for deleting user"""
     if not g.user:
         flash("Please login.", "error")
         return redirect("/")
-
-    """show page for deleting user"""
+    
     user = User.query.get_or_404(user_id)
     return render_template('delete_page.html', user=user)
 
@@ -225,11 +225,9 @@ def delete(user_id):
         flash("Please login.", "error")
         return redirect("/")
 
-        do_logout()
-        #figure out how to do alert here for are you sure?
-        db.session.delete(g.user)
-        db.session.commit()
-
+    db.session.delete(user)
+    db.session.commit()
+    do_logout()
     return redirect('/')
 #___________________________________________________
 #login/logout routes
