@@ -266,12 +266,13 @@ def logout():
 @app.route("/users/<int:user_id>/favorites", methods=['GET', 'POST'])
 def show_favoritespage(user_id):
     """show favorites page for viewing and deleting faves"""
-    user = User.query.get_or_404(user_id)
-    
+
     if not g.user:
-        flash("Please login.")
+        flash("Please login.", 'error')
         return redirect("/")
 
+    user = User.query.get_or_404(user_id)
+    
     return render_template('favorites.html', user=user, favorites=user.favorites)
 
 @app.route('/photos/<int:photo_id>/favorite', methods=['GET', 'POST'])
@@ -279,7 +280,7 @@ def toggle_favorite(photo_id):
     """route for toggling a favorite in and out of user's faves"""
     # http://127.0.0.1:5000/photos//favorite
     if not g.user:
-        flash("Please login.")
+        flash("Please login or sign up to add favorites.")
         return redirect("/")
   
     favorited_photo = Photos.query.get_or_404(photo_id)

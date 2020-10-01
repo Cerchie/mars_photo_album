@@ -17,40 +17,43 @@
                 <a class="nav-link" href="/{{g.user.id}}/homepage"> Return Home <span
                         class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users/{{g.user.id}}/favorites"> Favorites <span
+                        class="sr-only">(current)</span></a>
+            </li>
             {% else %}
             <li class="nav-item active">
                 <a class="nav-link" href="/"> Return Home <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
-            <li class="nav-item active">
-                <a class="nav-link" href="/users/{{g.user.id}}/favorites"> Favorites <span
-                        class="sr-only">(current)</span></a>
-            </li>
+
         </ul>
     </div>
 </nav>
 
 {% for photo in photos%}
-
-<div class="photo-container m-2 p-2"><img src="{{photo.image_url}}"
-        alt="mars rover photo, black and white, rocky terrain">
+<div class="container ">
+    <div class="row bg-info text-white p-4">
+        <div class="col-12 col-sm-6 col-md-4">
+            <img src="{{photo.image_url}}" alt="mars rover photo, black and white, rocky terrain" class="img-fluid">
+        </div>
+    </div>
 </div>
-
 <div class="favorite-btn-container m-2 p-2">
     <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
         {% if photo.id not in favorites %}
-        <button class="btn btn-sm ">
-            <i class="far fa-heart">Add Favorite</i>
+        <button class="btn btn-sm bg-success text-light text-monospace">
+            Add Favorite
         </button>
         {% else %}
-        <button class="btn btn-sm ">
-            <i class="fas fa-heart">Remove Favorite</i>
+        <button class="btn btn-sm bg-danger text-light text-monospace">
+            Remove Favorite
         </button>
         {% endif %}
 
     </form>
 </div>
-
+</div>
 {% endfor %}
 
 {% endblock %}

@@ -2,14 +2,20 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="card p-2 m-4">
+        <img class="card-img-top" src="https://i.ibb.co/pxxw8mm/Untitled-design-7.png"
+            alt="Cartoon image of person tapping phone">
+        <div class="card-body">
+            <p class="font-weight-light">You are viewing your account information.</p>
 
+            <p class="font-weight-light"> Your username is <b>{{user.username}}</b>.
+            </p>
 
+            <p class="font-weight-light">Edit your username <a href="/users/{{user.id}}/edit"> here</a>.</p>
 
-Hello world, this is a Mars rover page where you can view your account info
-Your username is <div>{{user.username}}</div>
-
-<a href="/users/{{user.id}}/edit">Edit your username here</a>
-
-<a href="/{{user.id}}/homepage">Go back</a>
-
+            <a href="/{{user.id}}/homepage">Go back.</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -5,30 +5,34 @@
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<ul class=flashes>
+
+<ul class="flashes">
     {% for message in messages %}
     <li>{{ message }}</li>
     {% endfor %}
 </ul>
+
 {% endif %}
 {% endwith %}
-<form method="POST" id="user_form">
 
-    {{ form.hidden_tag() }}
+<div class="card m-2">
+    <form method="POST" id="user_form">
 
-    {% for field in form if field.widget.input_type != 'hidden' %}
+        {{ form.hidden_tag() }}
 
-    {% for error in field.errors %}
-    <span class="text-danger">{{ error }}</span>
-    {% endfor %}
+        {% for field in form if field.widget.input_type != 'hidden' %}
 
-    <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
+        {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
 
-    {% endfor %}
+        <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
 
-    <div class="m-4"><button>submit</button></div>
+        {% endfor %}
 
-</form>
+        <div><button class="btn btn-lg btn-info m-4">submit</button></div>
 
+    </form>
+</div>
 
 {% endblock %}
