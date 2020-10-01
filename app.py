@@ -117,7 +117,7 @@ def show_curiosity_photos():
             db.session.commit()
         
 
-    photos_from_db = Photos.query.limit(25).all()
+    photos_from_db = Photos.query.limit(24).all()
     return render_template("curiousity_photos.html", photos=photos_from_db, favorites=favorites)
     
 

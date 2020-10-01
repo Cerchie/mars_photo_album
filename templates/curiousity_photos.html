@@ -30,35 +30,44 @@
         </ul>
     </div>
 </nav>
+<div class="container-fluid"></div>
 <h4 class="m-4">
     Enjoy scrolling through Curiosity's photos!</h4>
-<h5 class="m-2">Note: some of the photos may be grainy. It depends on what Curiosity is doing today! </h5>
-<div class="container-fluid">
-    <div class="row bg-info text-white p-4">
-        {% for photo in photos%}
+<p class="m-2"> Note: some of the photos may be grainy or monochrome. It depends on what Curiosity is doing today!
+</p>
 
-        <div class="col col-sm-6 col-md-4">
-            <img src="{{photo.image_url}}" alt="mars rover photo, black and white, rocky terrain" class="img-fluid">
+<div class="row bg-info text-white p-4">
+
+    {% for photo in photos%}
+
+    <div class="col col-sm-6 col-md-4">
+        <div class="card m-3">
+            <div class="card-body m-.5">
+                <img src="{{photo.image_url}}" alt="mars rover photo, black and white, rocky terrain" class="img-fluid"
+                    style="max-width: 100%;">
+                <div class=" m-2 p-2">
+                    <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
+                        {% if photo.id not in favorites %}
+                        <button class="btn btn-sm bg-success text-light text-monospace">
+                            Add Favorite
+                        </button>
+                        {% else %}
+                        <button class="btn btn-sm bg-danger text-light text-monospace">
+                            Remove Favorite
+                        </button>
+                        {% endif %}
+                </div>
+            </div>
         </div>
-
-        <div class="favorite-btn-container m-2 p-2">
-            <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
-                {% if photo.id not in favorites %}
-                <button class="btn btn-sm bg-success text-light text-monospace">
-                    Add Favorite
-                </button>
-                {% else %}
-                <button class="btn btn-sm bg-danger text-light text-monospace">
-                    Remove Favorite
-                </button>
-                {% endif %}
-        </div>
-        </form>
-
     </div>
+    </form>
+
+
 
 
     {% endfor %}
+</div>
+</div>
 </div>
 </div>
 {% endblock %}
