@@ -3,7 +3,6 @@
 {% block content %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Photo Album from Mars</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,22 +26,21 @@
 </ul>
 {% endif %}
 {% endwith %}
-
+<h2 class="m-4">Edit your username</h2>
 <form method="POST" id="user_form" action="/users/{{user.id}}/edit">
+    <div class="form-group">
 
-    {{ form.hidden_tag() }}
+        {{ form.hidden_tag() }}
 
-    {% for field in form if field.widget.input_type != 'hidden' %}
+        {% for field in form if field.widget.input_type != 'hidden' %}
 
-    <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
+        <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
 
-    {% endfor %}
+        {% endfor %}
 
-    <button>submit</button>
+        <button class="btn btn-success m-2">submit</button>
+    </div>
 </form>
 
-<a href="/users/{{user.id}}/delete">Delete Your Account</a>
-
-Hello world, this is a Mars rover page where you can edit your username
 
 {% endblock %}
