@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="container bg-dark text-white">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</div>
 <div class="container">
     <div class="card p-2 m-4">
         <img class="card-img-top" src="https://i.ibb.co/pxxw8mm/Untitled-design-7.png"

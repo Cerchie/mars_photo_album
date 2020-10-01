@@ -186,9 +186,9 @@ def edit_user(user_id):
             
             db.session.commit()
 
-            flash(f"Your new username is {user.username}.")
+        flash(f"Your new username is {user.username}.")
 
-            return redirect(f"/users/{user.id}")
+        return redirect(f"/users/{user.id}")
         
     else:
 

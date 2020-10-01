@@ -17,7 +17,7 @@
 
 <div class="card m-2">
     <form method="POST" id="user_form">
-
+        <h5 class="card-title m-4">Sign Up</h5>
         {{ form.hidden_tag() }}
 
         {% for field in form if field.widget.input_type != 'hidden' %}
