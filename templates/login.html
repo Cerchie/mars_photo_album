@@ -13,26 +13,29 @@
 {% endwith %}
 
 <form method="POST" id="user_form">
+    <div class="form-group m-4">
+        <div class="card p-2 m-2">
+
+            {{ form.hidden_tag() }}
+
+            {% for field in form if field.widget.input_type != 'hidden' %}
+
+            {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+
+            <div class="m-2">{{ field(placeholder=field.label.text, class="form-control") }}</div>
+
+            {% endfor %}
+
+            <div><button class="btn btn-primary m-2">Submit</button></div>
 
 
-    {{ form.hidden_tag() }}
-
-    {% for field in form if field.widget.input_type != 'hidden' %}
-
-    {% for error in field.errors %}
-    <span class="text-danger">{{ error }}</span>
-    {% endfor %}
-
-    <div class="m-4">{{ field(placeholder=field.label.text, class="form-control") }}</div>
-
-    {% endfor %}
-
-    <div class="m-4"><button>submit</button></div>
-
+            <a href="/" class="m-2">Return Home</a>
+        </div>
+    </div>
 </form>
 
 
-
-<a href="/">return home</a>
 
 {% endblock %}
