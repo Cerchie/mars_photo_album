@@ -181,16 +181,20 @@ def edit_user(user_id):
     if form.validate_on_submit():
 
         if User.authenticate(user.username, form.password.data):
-
+            
             user.username = form.username.data
             
             db.session.commit()
 
+            flash(f"Your new username is {user.username}.")
+
             return redirect(f"/users/{user.id}")
+        
+    else:
 
         flash("Wrong password, please try again.", 'danger')
 
-    flash(f"Your new username is {user.username}.")
+    
     
     return redirect(f'/users/{user.id}/edit')
 
