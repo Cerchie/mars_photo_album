@@ -48,7 +48,7 @@
                 <div class=" m-2 p-2">
                     <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
                         {% if photo.id not in favorites %}
-                        <button class="btn btn-sm bg-success text-light text-monospace">
+                        <button class="btn btn-sm bg-success text-light text-monospace" id="fave-btn">
                             Add Favorite
                         </button>
                         {% else %}
