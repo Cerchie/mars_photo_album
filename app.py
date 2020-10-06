@@ -22,6 +22,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET', 'abc123')
 app.config['SECRET_KEY2'] = os.environ.get('APIKEY', 'abc123') 
 app.config['SECRET_KEY3'] = os.environ.get('WAPIKEY', 'abc123') 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+WAPIKEY = os.environ.get('WAPIKEY')
+APIKEY = os.environ.get('APIKEY')
 
 connect_db(app)
 
