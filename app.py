@@ -232,6 +232,7 @@ def delete(user_id):
     db.session.delete(user)
     db.session.commit()
     do_logout()
+    flash('Successfully deleted your account.')
     return redirect('/')
 #___________________________________________________
 #login/logout routes
