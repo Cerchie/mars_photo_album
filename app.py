@@ -26,7 +26,7 @@ WAPIKEY = os.environ.get('WAPIKEY')
 APIKEY = os.environ.get('APIKEY')
 
 connect_db(app)
-
+db.create_all()
 
 #___________________________________________________
 # route for adding user to global, login and logout methods
