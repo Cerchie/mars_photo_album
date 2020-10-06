@@ -16,9 +16,9 @@ No favorites yet. <a href="/curiosity/photos">Visit the photo page to add some. 
     <div class="card m-3">
         <div class="card-body m-.5">
             <div class=" m-2 p-2">
-                <img src="{{ favorite.image_url }}" alt="" class="favorite-image">
+                <img src="{{ favorite.image_url }}" alt="" class="card-img-top">
                 </a>
-                <form method="POST" action="/photos/{{favorite.id}}/favorite" class="card-img-top">
+                <form method="POST" action="/photos/{{favorite.id}}/favorite" class="photos-like">
                     <button class="
                             btn 
                             btn-sm 
