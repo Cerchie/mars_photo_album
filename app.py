@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignUpForm, UserEditForm
 from flask_bcrypt import Bcrypt
-from key import SECRET, APIKEY, WAPIKEY
+# from key import SECRET, APIKEY, WAPIKEY
 from datetime import date, datetime
 import requests
 import json
@@ -19,6 +19,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', "postgres
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET', 'abc123') 
+app.config['SECRET_KEY2'] = os.environ.get('APIKEY', 'abc123') 
+app.config['SECRET_KEY3'] = os.environ.get('WAPIKEY', 'abc123') 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
