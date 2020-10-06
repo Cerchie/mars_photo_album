@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, redirect, render_template, flash, session, jsonify, g
 from models import db, connect_db, User, Favorites, Photos
 from flask_debugtoolbar import DebugToolbarExtension
@@ -20,15 +21,7 @@ app.config['SECRET_KEY'] = SECRET
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
-# db.drop_all()
-# db.create_all() #when you're done remove these
- 
-#T O D O create tests for models and views
-#T O D O make it so mission info page has well written copy, maybe info from API calls. 
-# Make sure to add logic in mission_info.html to catch if user is logged in to return them to the proper homepage
-#T O D O Make sure to add logic in Curiosity template to show proper homepage
-#T O D O render Mars photo on rover pages and favorites page
-#T O D O return to logged-in-homepage route once you've got the signup route complete
+
 
 #___________________________________________________
 # route for adding user to global, login and logout methods
