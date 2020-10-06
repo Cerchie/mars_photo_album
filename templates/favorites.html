@@ -10,17 +10,28 @@ No favorites yet. <a href="/curiosity/photos">Visit the photo page to add some. 
 {% endif %}
 {% for favorite in favorites %}
 
-<img src="{{ favorite.image_url }}" alt="" class="favorite-image">
-</a>
-<form method="POST" action="/photos/{{favorite.id}}/favorite" class="photos-like">
-    <button class="
-                btn 
-                btn-sm 
-                {{'btn-primary' if favorite.id in favorites else 'btn-secondary'}}">
-        <i class="far fa-heart">Remove Favorite</i>
-    </button>
-</form>
+<div class="row bg-info text-white p-4"></div>
 
+<div class="col col-sm-6 col-md-4">
+    <div class="card m-3">
+        <div class="card-body m-.5">
+            <img src="{{favorites.image_url}}" alt="mars rover photo, black and white, rocky terrain" class="img-fluid"
+                style="max-width: 100%;">
+            <div class=" m-2 p-2">
+                <img src="{{ favorite.image_url }}" alt="" class="favorite-image">
+                </a>
+                <form method="POST" action="/photos/{{favorite.id}}/favorite" class="photos-like">
+                    <button class="
+                            btn 
+                            btn-sm 
+                            {{'btn-primary' if favorite.id in favorites else 'btn-secondary'}}">
+                        <i class="far fa-heart">Remove Favorite</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
-
+</div>
 {% endblock %}
