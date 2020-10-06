@@ -2,15 +2,14 @@
 
 {% block content %}
 
-
-
-<h2 class="m-4">Your Favorite Mars Photos</h2>
-{% if favorites | length == 0 %}
-No favorites yet. <a href="/curiosity/photos">Visit the photo page to add some. </a>
-{% endif %}
-{% for favorite in favorites %}
-
 <div class="row bg-info text-white p-4">
+
+    <h2 class="m-4">Your Favorite Mars Photos</h2>
+    {% if favorites | length == 0 %}
+    No favorites yet. <a href="/curiosity/photos">Visit the photo page to add some. </a>
+    {% endif %}
+    {% for favorite in favorites %}
+
 
     <div class="col col-sm-6 col-md-4">
         <div class="card m-3">
@@ -29,6 +28,7 @@ No favorites yet. <a href="/curiosity/photos">Visit the photo page to add some. 
             </div>
         </div>
     </div>
+
     </form>
     {% endfor %}
 </div>
