@@ -63,6 +63,7 @@ def show_homepage():
     today = datetime.utcnow()
     
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
+    print(widget_response)
     data = widget_response.json()
     sol_day_of_curr_date = data["sol_keys"][6]
     celsius_on_mars = data[sol_day_of_curr_date]["AT"]["av"]
@@ -78,6 +79,7 @@ def show_logged_in_homepage(user_id):
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
     data = widget_response.json()
     sol_day_of_curr_date = data["sol_keys"][6]
+    
     celsius_on_mars = data[sol_day_of_curr_date]["AT"]["av"]
         
     if not g.user:
