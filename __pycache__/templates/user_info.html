@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container bg-dark text-white">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</div>
+<div class="container">
+    <div class="card p-2 m-4">
+        <img class="card-img-top" src="https://i.ibb.co/pxxw8mm/Untitled-design-7.png"
+            alt="Cartoon image of person tapping phone">
+        <div class="card-body">
+            <p class="font-weight-light">You are viewing your account information.</p>
+
+            <p class="font-weight-light"> Your username is <b>{{user.username}}</b>.
+            </p>
+
+            <p class="font-weight-light"><a href="/users/{{user.id}}/edit" class="badge badge-info p-2">Edit Your
+                    Username</a></p>
+
+            <div class=" mt-3 mb-4"><a href="/users/{{user.id}}/delete" class="badge badge-primary p-2">Delete Your
+                    Account</a>
+            </div>
+            <div class=""> <a href="/{{user.id}}/homepage">Go back.</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

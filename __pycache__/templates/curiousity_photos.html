@@ -1,0 +1,80 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <p class="navbar-brand">Photo Album from Mars</p>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% if g.user %}
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/{{g.user.id}}/homepage"> Return Home <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users/{{g.user.id}}/favorites"> Favorites <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/"> Return Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid"></div>
+<h4 class="m-4">
+    Enjoy scrolling through Curiosity's photos!</h4>
+<p class="m-2"> Note: some of the photos may be grainy or monochrome. It depends on what Curiosity is doing today!
+    Nasa releases explanations of the photos every few days on the <a href="https://mars.nasa.gov/msl/mission-updates/"
+        target="_blank">mission update blog</a>.
+</p>
+
+<div class="row bg-info text-white p-4">
+
+    {% if photos | length == 0 %}
+    Curiosity hasn't taken any photos this sol. <a href="https://mars.nasa.gov/msl/mission-updates/"
+        target="_blank">Visit the Curiosity blog</a> to view past photos.
+    {% endif %}
+
+    {% for photo in photos%}
+
+    <div class="col col-sm-6 col-md-4">
+        <div class="card m-3">
+            <div class="card-body m-.5">
+                <img src="{{photo.image_url}}" alt="mars rover photo, black and white, rocky terrain" class="img-fluid"
+                    style="max-width: 100%;">
+                <div class=" m-2 p-2">
+                    <form method="POST" action="/photos/{{photo.id}}/favorite" class="photos-favorites">
+                        {% if photo.id not in favorites %}
+                        <button class="btn btn-sm bg-success text-light text-monospace" id="fave-btn">
+                            Add Favorite
+                        </button>
+                        {% else %}
+                        <button class="btn btn-sm bg-danger text-light text-monospace">
+                            Remove Favorite
+                        </button>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+
+
+
+    {% endfor %}
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

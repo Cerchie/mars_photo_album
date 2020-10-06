@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+<form method="POST" id="user_form" action="/users/{{user.id}}/delete">
+    <div class="form-group m-4">
+        <div class="card p-2 m-2">
+            <div> Are you certain that you want to delete your account?</div>
+            <div><button class="btn btn-primary m-2">Yes I am</button></div>
+        </div>
+        <div><a href="/users/{{user.id}}" class="m-2">Go back to my account</a></div>
+    </div>
+
+</form>
+
+
+{% endblock %}

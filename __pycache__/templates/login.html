@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block content %}
+<!-- add logic here to set form-->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<form method="POST" id="user_form">
+    <div class="form-group m-4">
+        <div class="card p-2 m-2">
+            <h5 class="card-title m-2">Login</h5>
+            {{ form.hidden_tag() }}
+
+            {% for field in form if field.widget.input_type != 'hidden' %}
+
+            {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+
+            <div class="m-2">{{ field(placeholder=field.label.text, class="form-control") }}</div>
+
+            {% endfor %}
+
+            <div><button class="btn btn-primary m-2">Submit</button></div>
+
+
+            <a href="/" class="m-2">Return Home</a>
+        </div>
+    </div>
+</form>
+
+
+
+{% endblock %}
