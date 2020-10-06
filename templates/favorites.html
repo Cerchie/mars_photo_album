@@ -1,6 +1,32 @@
 {% extends "index.html" %}
 
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% if g.user %}
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/{{g.user.id}}/homepage"> Return Home <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/curiosity/photos"> Favorites <span class="sr-only">(current)</span></a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/"> Return Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
 <h2 class="m-4">Your Favorite Mars Photos</h2>
 <div class="row bg-info text-white p-4">
 
