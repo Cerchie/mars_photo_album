@@ -63,9 +63,8 @@ def show_homepage():
     today = datetime.utcnow()
     
     widget_response = requests.get(f"https://api.nasa.gov/insight_weather/?api_key={WAPIKEY}&Last_UTC={today}&feedtype=json&ver=1.0")
-    print(widget_response)
     data = widget_response.json()
-    sol_day_of_curr_date = data["sol_keys"][6]
+    sol_day_of_curr_date = data["sol_keys"][6] #might throw err if not on heroku because api will not recognize key because localhost doesn't provide it, heroku does
     celsius_on_mars = data[sol_day_of_curr_date]["AT"]["av"]
     return render_template("homepage.html", celsius_on_mars=celsius_on_mars) 
     
