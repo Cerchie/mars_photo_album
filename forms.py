@@ -7,7 +7,7 @@ class SignUpForm(FlaskForm):
     """form for signing up"""
 
     username = StringField('Username', validators=[Length(min=2,max=30),DataRequired()])
-    password = PasswordField('Password', validators=[Length(min=6, max=30), DataRequired()])
+    password = PasswordField('Password', validators=[Length(min=6, max=30), DataRequired(),l that  of these conditions: The password length must be greater than or equal to 8. The password must contain one or more uppercase characters. The password must contain one or more lowercase characters. The password must contain one or more numeric values. The password must contain one or more special characters.")])
 
 class UserEditForm(FlaskForm):
     """form for editing user"""
