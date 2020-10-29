@@ -70,7 +70,7 @@ def show_homepage():
             return render_template("homepage.html", celsius_on_mars=celsius_on_mars) 
 
     except: 
-            celsius_on_mars = 'at least -62.2222 on Mars'
+            celsius_on_mars = 'at least -62.2222'
 
             return render_template("homepage.html", celsius_on_mars=celsius_on_mars) 
     
